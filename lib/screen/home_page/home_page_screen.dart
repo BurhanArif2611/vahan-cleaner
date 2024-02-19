@@ -1,0 +1,145 @@
+import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import '../../app_routes/app_routes.dart';
+import '../../get_controller_builder.dart';
+import '../../models/view_subscription_response.dart';
+import '../../utils/colors.dart';
+import '../../utils/font_family.dart';
+import '../../widget/common_app_bar.dart';
+import 'home_controller.dart';
+
+class HomeScreen extends StatefulWidget {
+  const HomeScreen({Key? key}) : super(key: key);
+
+  @override
+  State<HomeScreen> createState() => _HomeScreenState();
+}
+
+class _HomeScreenState extends State<HomeScreen> {
+
+  HomePageController homePageController = Get.put(HomePageController());
+
+  @override
+  Widget build(BuildContext context) {
+    return GetBuilder<HomePageController>(
+        id: GetXControllerBuilders.homePageController,
+        init: homePageController,
+        builder: (controller) {
+        return Scaffold(
+          backgroundColor: AppColor.neutral_200,
+          appBar: PreferredSize(
+              preferredSize: Size.fromHeight(70.0),
+              child: CustomAppBar(isBack: false)
+          ),
+          body: RefreshIndicator(
+            onRefresh: controller.pullRefresh,
+            child: SingleChildScrollView(
+              child: Padding(
+                padding: const EdgeInsets.all(20.0),
+                child: Column(
+                  children: [
+                    Row(
+                      children: [
+                        Text(
+                          "Clean Vahan and Earn More",
+                          style: TextStyle(
+                            color: primaryColor,
+                            fontWeight: FontWeight.w600,
+                            fontSize: 20,
+                            fontFamily: FontFamily.fontFamily,),
+                        ),
+                      ],
+                    ),
+                    Row(
+                      children: [
+                        Container(
+                          width: MediaQuery.of(context).size.width - 40,
+                          child: Text(
+                            " Clean more and more vehicles and start earning extra income.",
+                            maxLines: 2,
+                            style: TextStyle(
+                              color: primaryColor,
+                              fontWeight: FontWeight.w400,
+                              fontSize: 16,
+                              fontFamily: FontFamily.fontFamily,),
+                          ),
+                        ),
+                      ],
+                    ),
+                    SizedBox(height: 20),
+                    ListView.builder(
+                        itemCount: controller.vahans?.length ?? 0,
+                        physics: NeverScrollableScrollPhysics(),
+                        shrinkWrap: true,
+                        itemBuilder: (context, index) {
+                          Vahan? vahanData = controller.vahans?[index];
+                          return GestureDetector(
+                            onTap: () {
+                              Get.toNamed(AppRoutes.addVahan, arguments: {
+                                "vahanData" : vahanData
+                              });
+                            },
+                            child: Container(
+                              padding: EdgeInsets.symmetric(horizontal: 15, vertical: 10),
+                              margin: EdgeInsets.only(bottom: 10),
+                              decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(8),
+                                  color: AppColor.neutral_100,
+                                  border: Border.all(color: AppColor.orange_100),
+                                  boxShadow: [
+                                    BoxShadow(
+                                        color: AppColor.neutral_300.withOpacity(0.6),
+                                        offset: Offset(0, 3),
+                                        spreadRadius: 4,
+                                        blurRadius: 4
+                                    )
+                                  ]
+                              ),
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                children: [
+                                  Column(
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: [
+                                      Text(vahanData?.regNumber ?? "", style: TextStyle(
+                                          fontSize: 20, fontWeight: FontWeight.bold,
+                                          fontFamily: FontFamily.fontFamily
+                                      ),),
+                                      Text(" ${vahanData?.brand ?? ""} ${vahanData?.model ?? ""}", style: TextStyle(fontFamily: FontFamily.fontFamily, fontWeight: FontWeight.w500, fontSize: 15),),
+                                      Row(
+                                        children: [
+                                          Icon(Icons.person, color: AppColor.orange, size: 18),
+                                          Text(" ${vahanData?.name ?? ""}", style: TextStyle(fontFamily: FontFamily.fontFamily, fontWeight: FontWeight.w500, fontSize: 15),),
+
+                                        ],
+                                      ),
+                                    ],
+                                  ),
+                                  Row(
+                                    mainAxisAlignment: MainAxisAlignment.end,
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: [
+                                      Icon(Icons.location_on, color: AppColor.neutral_500, size: 14),
+                                      Text((vahanData?.parkingLocation ?? ""), style: TextStyle(
+                                          fontSize: 12, fontWeight: FontWeight.bold,
+                                          fontFamily: FontFamily.fontFamily
+                                      ),),
+                                    ],
+                                  ),
+                                ],
+                              ),
+                            ),
+                          );
+                        }
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ),
+        );
+      }
+    );
+  }
+}
