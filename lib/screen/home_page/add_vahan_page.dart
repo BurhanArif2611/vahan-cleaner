@@ -32,7 +32,7 @@ class _AddVehicleScreenState extends State<AddVehicleScreen> {
               return Scaffold(
                 backgroundColor: AppColor.neutral_200,
                 appBar: PreferredSize(
-                    preferredSize: Size.fromHeight(70.0),
+                    preferredSize: const Size.fromHeight(70.0),
                     child: CustomAppBar(isBack: true,)
                 ),
                 body: SingleChildScrollView(
@@ -42,17 +42,17 @@ class _AddVehicleScreenState extends State<AddVehicleScreen> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          "Add Your Vahan For The Cleaning",
+                          "Log your Cleaning & Earn",
                           style: TextStyle(
                             color: primaryColor,
                             fontWeight: FontWeight.w600,
                             fontSize: 20,
                             fontFamily: FontFamily.fontFamily,),
                         ),
-                        Container(
+                        SizedBox(
                           width: 300,
                           child: Text(
-                            "Add your Vahan details for personalized care.",
+                            "Content should be Upload picture which has car number clearly visible.",
                             maxLines: 2,
                             style: TextStyle(
                               color: primaryColor,
@@ -64,7 +64,7 @@ class _AddVehicleScreenState extends State<AddVehicleScreen> {
                         const SizedBox(height: 20),
                         Container(
                           width: MediaQuery.of(context).size.width - 40,
-                          padding: EdgeInsets.symmetric(vertical: 14),
+                          padding: const EdgeInsets.symmetric(vertical: 14),
                           decoration: BoxDecoration(
                               color: AppColor.neutral_100,
                               border:
@@ -90,10 +90,8 @@ class _AddVehicleScreenState extends State<AddVehicleScreen> {
                             ),
                           ),
                         ),
-                        SizedBox(height: 10),
+                        const SizedBox(height: 10),
                         Container(
-                          padding: EdgeInsets.symmetric(horizontal: 15, vertical: 10),
-                          margin: EdgeInsets.only(bottom: 10),
                           decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(8),
                               color: AppColor.neutral_100,
@@ -101,48 +99,92 @@ class _AddVehicleScreenState extends State<AddVehicleScreen> {
                               boxShadow: [
                                 BoxShadow(
                                     color: AppColor.neutral_300.withOpacity(0.6),
-                                    offset: Offset(0, 3),
+                                    offset: const Offset(0, 3),
                                     spreadRadius: 4,
                                     blurRadius: 4
                                 )
                               ]
                           ),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            crossAxisAlignment: CrossAxisAlignment.center,
+                          child: Column(
                             children: [
-                              Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text(controller.vahans?.regNumber ?? "", style: TextStyle(
-                                      fontSize: 20, fontWeight: FontWeight.bold,
-                                      fontFamily: FontFamily.fontFamily
-                                  ),),
-                                  Text(" ${controller.vahans?.brand ?? ""} ${controller.vahans?.model ?? ""}", style: TextStyle(fontFamily: FontFamily.fontFamily, fontWeight: FontWeight.w500, fontSize: 15),),
-                                  Row(
+                              Container(
+                                width: MediaQuery.of(context).size.width,
+                                height: MediaQuery.of(context).size.height * 0.25,
+                                decoration: BoxDecoration(
+                                    color: AppColor.neutral_100,
+                                    borderRadius: const BorderRadius.only(topRight: Radius.circular(8), topLeft: Radius.circular(8)),
+                                    border: Border.all(color: AppColor.orange_100),
+                                    boxShadow: [
+                                      BoxShadow(
+                                          color: AppColor.neutral_300.withOpacity(0.6),
+                                          offset: const Offset(0, 3),
+                                          spreadRadius: 4,
+                                          blurRadius: 4)
+                                    ]),
+                                child: ClipRRect(
+                                  borderRadius: const BorderRadius.only(topRight: Radius.circular(8), topLeft: Radius.circular(8)),
+                                  child: Image.network("${controller.imageBaseUrl ?? ""}${controller.vahans?.image ?? ""}",
+                                    fit: BoxFit.cover,
+                                    errorBuilder: (context, error, stackTrace) {
+                                      return const Icon(Icons.error_outline_outlined, color: AppColor.red);
+                                    },),
+                                ),
+                              ),
+                              Padding(
+                                padding: const EdgeInsets.only(bottom: 10),
+                                child: Padding(
+                                  padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
+                                  child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                    crossAxisAlignment: CrossAxisAlignment.center,
                                     children: [
-                                      Icon(Icons.person, color: AppColor.orange, size: 18),
-                                      Text(" ${controller.vahans?.name ?? ""}", style: TextStyle(fontFamily: FontFamily.fontFamily, fontWeight: FontWeight.w500, fontSize: 15),),
+                                      Column(
+                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                        children: [
+                                          Text(controller.vahans?.regNumber ?? "", style: TextStyle(
+                                              fontSize: 20, fontWeight: FontWeight.bold,
+                                              fontFamily: FontFamily.fontFamily
+                                          ),),
+                                          Text(" ${controller.vahans?.brand ?? ""} ${controller.vahans?.model ?? ""}", style: TextStyle(fontFamily: FontFamily.fontFamily, fontWeight: FontWeight.w500, fontSize: 15),),
+                                          Row(
+                                            children: [
+                                              const Icon(Icons.person, color: AppColor.orange, size: 18),
+                                              Text(" ${controller.vahans?.name ?? ""}", style: TextStyle(fontFamily: FontFamily.fontFamily, fontWeight: FontWeight.w500, fontSize: 15),),
 
+                                            ],
+                                          ),
+                                        ],
+                                      ),
+                                      Column(
+                                        children: [
+                                          Row(
+                                            mainAxisAlignment: MainAxisAlignment.end,
+                                            crossAxisAlignment: CrossAxisAlignment.start,
+                                            children: [
+                                              const Icon(Icons.location_on, color: AppColor.neutral_500, size: 14),
+                                              Text((controller.vahans?.parkingLocation ?? ""), style: TextStyle(
+                                                  fontSize: 12, fontWeight: FontWeight.bold,
+                                                  fontFamily: FontFamily.fontFamily
+                                              ),),
+                                            ],
+                                          ),
+                                          Text("+${controller.vahans?.points} coins",
+                                            style: TextStyle(
+                                                fontSize: 12,
+                                                fontWeight: FontWeight.bold,
+                                                fontFamily:
+                                                FontFamily.fontFamily),
+                                          ),
+                                        ],
+                                      ),
                                     ],
                                   ),
-                                ],
-                              ),
-                              Row(
-                                mainAxisAlignment: MainAxisAlignment.end,
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Icon(Icons.location_on, color: AppColor.neutral_500, size: 14),
-                                  Text((controller.vahans?.parkingLocation ?? ""), style: TextStyle(
-                                      fontSize: 12, fontWeight: FontWeight.bold,
-                                      fontFamily: FontFamily.fontFamily
-                                  ),),
-                                ],
+                                ),
                               ),
                             ],
                           ),
                         ),
-                        SizedBox(height: 10),
+                        const SizedBox(height: 10),
                         Container(
                           decoration: BoxDecoration(
                             color: AppColor.neutral_100,

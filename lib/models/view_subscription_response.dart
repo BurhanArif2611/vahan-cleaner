@@ -8,23 +8,69 @@ class ViewSubscriptionResponse {
   final bool? status;
   final List<Vahan>? vahans;
   final String? baseurl;
+  final Stats? stats;
 
   ViewSubscriptionResponse({
     this.status,
     this.vahans,
     this.baseurl,
+    this.stats,
   });
+
+  ViewSubscriptionResponse copyWith({
+    bool? status,
+    List<Vahan>? vahans,
+    String? baseurl,
+    Stats? stats,
+  }) =>
+      ViewSubscriptionResponse(
+        status: status ?? this.status,
+        vahans: vahans ?? this.vahans,
+        baseurl: baseurl ?? this.baseurl,
+        stats: stats ?? this.stats,
+      );
 
   factory ViewSubscriptionResponse.fromJson(Map<String, dynamic> json) => ViewSubscriptionResponse(
     status: json["status"],
     vahans: json["vahans"] == null ? [] : List<Vahan>.from(json["vahans"]!.map((x) => Vahan.fromJson(x))),
     baseurl: json["baseurl"],
+    stats: json["stats"] == null ? null : Stats.fromJson(json["stats"]),
   );
 
   Map<String, dynamic> toJson() => {
     "status": status,
     "vahans": vahans == null ? [] : List<dynamic>.from(vahans!.map((x) => x.toJson())),
     "baseurl": baseurl,
+    "stats": stats?.toJson(),
+  };
+}
+
+class Stats {
+  final int? balance;
+  final int? todaysEarning;
+
+  Stats({
+    this.balance,
+    this.todaysEarning,
+  });
+
+  Stats copyWith({
+    int? balance,
+    int? todaysEarning,
+  }) =>
+      Stats(
+        balance: balance ?? this.balance,
+        todaysEarning: todaysEarning ?? this.todaysEarning,
+      );
+
+  factory Stats.fromJson(Map<String, dynamic> json) => Stats(
+    balance: json["balance"],
+    todaysEarning: json["todays_earning"],
+  );
+
+  Map<String, dynamic> toJson() => {
+    "balance": balance,
+    "todays_earning": todaysEarning,
   };
 }
 
@@ -36,6 +82,8 @@ class Vahan {
   final String? regNumber;
   final String? parkingLocation;
   final String? image;
+  final String? readyTime;
+  final String? points;
 
   Vahan({
     this.subscriptionId,
@@ -45,7 +93,32 @@ class Vahan {
     this.regNumber,
     this.parkingLocation,
     this.image,
+    this.readyTime,
+    this.points,
   });
+
+  Vahan copyWith({
+    String? subscriptionId,
+    String? name,
+    String? brand,
+    String? model,
+    String? regNumber,
+    String? parkingLocation,
+    String? image,
+    String? readyTime,
+    String? points,
+  }) =>
+      Vahan(
+        subscriptionId: subscriptionId ?? this.subscriptionId,
+        name: name ?? this.name,
+        brand: brand ?? this.brand,
+        model: model ?? this.model,
+        regNumber: regNumber ?? this.regNumber,
+        parkingLocation: parkingLocation ?? this.parkingLocation,
+        image: image ?? this.image,
+        readyTime: readyTime ?? this.readyTime,
+        points: points ?? this.points,
+      );
 
   factory Vahan.fromJson(Map<String, dynamic> json) => Vahan(
     subscriptionId: json["subscription_id"],
@@ -55,6 +128,8 @@ class Vahan {
     regNumber: json["reg_number"],
     parkingLocation: json["parking_location"],
     image: json["image"],
+    readyTime: json["ready_time"],
+    points: json["points"],
   );
 
   Map<String, dynamic> toJson() => {
@@ -65,5 +140,7 @@ class Vahan {
     "reg_number": regNumber,
     "parking_location": parkingLocation,
     "image": image,
+    "ready_time": readyTime,
+    "points": points,
   };
 }

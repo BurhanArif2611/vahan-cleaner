@@ -15,14 +15,14 @@ class AppPages {
         transition: transition,
         popGesture: false,
         name: AppRoutes.loginPage,
-        page: () => LoginScreen(),
+        page: () => const LoginScreen(),
       ),
       GetPage(
         transitionDuration: duration,
         transition: transition,
         popGesture: false,
         name: AppRoutes.homePage,
-        page: () => HomeScreen(),
+        page: () => const HomeScreen(),
       ),
       GetPage(
         transitionDuration: duration,

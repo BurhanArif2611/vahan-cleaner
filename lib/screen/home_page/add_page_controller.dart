@@ -11,6 +11,7 @@ import '../../shared_preferences/local_data.dart';
 import '../../utils/apis.dart';
 import '../../utils/snackbar.dart';
 import 'home_controller.dart';
+import 'package:flutter_image_compress/flutter_image_compress.dart';
 
 class AddPageController extends GetxController {
 
@@ -19,26 +20,50 @@ class AddPageController extends GetxController {
   var args = Get.arguments;
 
   Vahan? vahans;
+  String? imageBaseUrl;
   File? pickedImage;
 
   @override
   void onInit() {
     vahans = args["vahanData"];
+    imageBaseUrl = args['baseUrl'];
     super.onInit();
   }
 
-  //Image Picked
+  ///Image Picked
   pickImage(ImageSource imageType, BuildContext context) async {
     try {
       final photo = await ImagePicker().pickImage(source: imageType);
       if (photo == null) return;
-      pickedImage = File(photo.path);
+      // Compress the picked image
+      pickedImage = await compressImage(XFile(photo.path));
+      //pickedImage = File(photo.path);
       addCleaning(context);
       Get.back();
     } catch (error) {
       debugPrint(error.toString());
     }
     update([GetXControllerBuilders.addVehicleController]);
+  }
+
+  /// Compress image function
+  Future<File?> compressImage(XFile imageFile) async {
+    int quality = 85;
+    String filePath = imageFile.path;
+    String extension = filePath.split('.').last;
+    String compressedPath = filePath.replaceAll('.$extension', '_compressed.$extension');
+    var result = await FlutterImageCompress.compressAndGetFile(
+      filePath,
+      compressedPath,
+      quality: quality,
+    );
+
+    /// Convert XFile to File
+    if (result != null) {
+      return File(result.path);
+    } else {
+      return null;
+    }
   }
 
   /// Login api function with password.

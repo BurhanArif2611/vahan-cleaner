@@ -47,7 +47,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       Padding(
                           padding: const EdgeInsets.only(left: 20, right: 20, top: 10),
                           child: Text(
-                            "Welcome Back!",
+                            "Welcome Cleaner,",
                             textAlign: TextAlign.start,
                             style: TextStyle(fontSize: 33, fontWeight: FontWeight.bold, fontFamily: FontFamily.fontFamily),
                           ),),
@@ -58,7 +58,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         padding: const EdgeInsets.only(left: 20.0, right: 22),
                         child: Center(
                           child: Text(
-                            "Login to unlock the potential of your Vahan with Vahan+",
+                            "Its time to unlock earning opportunity with Vahan Plus.",
                             textAlign: TextAlign.start,
                             style: TextStyle(fontSize: 16, fontWeight: FontWeight.w400, fontFamily: FontFamily.fontFamily),
                           ),
@@ -88,15 +88,14 @@ class _LoginScreenState extends State<LoginScreen> {
                         Padding(
                           padding: const EdgeInsets.symmetric(horizontal: 20),
                           child: TextFormField(
-                              autovalidateMode:
-                                  AutovalidateMode.onUserInteraction,
+                              autovalidateMode: AutovalidateMode.onUserInteraction,
                               controller: controller.passwordController,
-                              validator: MultiValidator([
+                            keyboardType: TextInputType.number,
+                            validator: MultiValidator([
                                 RequiredValidator(
                                     errorText: "Please enter your password"),
                               ]),
-                              obscureText:
-                                  controller.isVisibility ? true : false,
+                              obscureText: controller.isVisibility ? true : false,
                               decoration: commonDecoration(
                                 hintText: "Enter password",
                                 suffixIcon: IconButton(
@@ -107,7 +106,8 @@ class _LoginScreenState extends State<LoginScreen> {
                                           color: AppColor.orange),
                                   onPressed: controller.isPasswordVisible,
                                 ),
-                              )),
+                              ),
+                          ),
                         ),
                         const SizedBox(height: 30),
                       Padding(

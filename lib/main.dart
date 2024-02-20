@@ -31,7 +31,7 @@ class _MyAppState extends State<MyApp> {
       designSize: const Size(390, 600),
       builder: (context, child) {
         return GetMaterialApp(
-          home: SplashFirst(),
+          home: const SplashFirst(),
           debugShowCheckedModeBanner: false,
           getPages: AppPages.getPages(),
         );

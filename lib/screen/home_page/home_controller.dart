@@ -15,6 +15,9 @@ class HomePageController extends GetxController {
 
   List<Vahan>? vahans;
   String? imageBaseUrl;
+  Stats? stats;
+  int? balance;
+  int? todaysEarning;
   File? pickedImage;
 
   @override
@@ -25,7 +28,7 @@ class HomePageController extends GetxController {
 
   /// Refresh page.
   Future<void> pullRefresh() async {
-    getVahanData();
+    await getVahanData();
   }
 
   /// Method use to get vehicles brands response.
@@ -33,12 +36,15 @@ class HomePageController extends GetxController {
     isLoading(true);
     try {
       String formattedDate = DateFormat('yyyy-MM-dd').format(now);
-      final response = await http.get(Uri.parse(Apis.baseUrl + Apis.getCleaner + GetSfLocalStorage.getAuthToken() + "&date=$formattedDate"));
+      final response = await http.get(Uri.parse("${Apis.baseUrl}${Apis.getCleaner}${GetSfLocalStorage.getAuthToken()}&date=$formattedDate"));
       ViewSubscriptionResponse vahansLIst = viewSubscriptionResponseFromJson(response.body);
       if (response.statusCode == 200) {
         if (vahansLIst.status ?? false) {
           vahans = vahansLIst.vahans;
           imageBaseUrl = vahansLIst.baseurl ?? "";
+          stats = vahansLIst.stats;
+          balance = stats?.balance;
+          todaysEarning = stats?.todaysEarning;
           print('Data: ${response.body}');
         }
         print('Data: ${response.body}');
