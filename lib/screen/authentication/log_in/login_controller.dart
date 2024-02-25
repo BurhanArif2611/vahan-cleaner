@@ -17,7 +17,6 @@ class LoginController extends GetxController {
   bool isVisibility = true;
   bool isFill = false;
 
-
   isPasswordVisible() {
     isVisibility = !isVisibility;
     update([GetXControllerBuilders.loginController]);
