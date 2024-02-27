@@ -186,6 +186,62 @@ class _AddVehicleScreenState extends State<AddVehicleScreen> {
                         ),
                         const SizedBox(height: 10),
                         Container(
+                          width: MediaQuery.of(context).size.width - 40,
+                          padding: const EdgeInsets.symmetric(vertical: 7),
+                          decoration: BoxDecoration(
+                              color: AppColor.neutral_100,
+                              border:
+                              Border.all(width: 0.7, color: AppColor.neutral_400),
+                              borderRadius: BorderRadius.circular(8)),
+                          child: Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 20),
+                            child: Row(
+                              children: [
+                                Row(
+                                  children: [
+                                    const Icon(Icons.cleaning_services, color: AppColor.orange_200,),
+                                    Text(" Clean Mode", style: TextStyle(
+                                      color: primaryColor,
+                                      fontWeight: FontWeight.w400,
+                                      fontSize: 16,
+                                      fontFamily: FontFamily.fontFamily,),)
+                                  ],
+                                ),
+                                Spacer(),
+                                Row(
+                                  children: [
+                                    Radio<CarModeValue>(
+                                      value: CarModeValue.IN,
+                                      groupValue: controller.selectedOption,
+                                      onChanged: (value) => controller.selectCarMode(value),
+                                    ),
+                                    Text("In", style: TextStyle(
+                                      color: primaryColor,
+                                      fontWeight: FontWeight.w400,
+                                      fontSize: 16,
+                                      fontFamily: FontFamily.fontFamily,),)
+                                  ],
+                                ),
+                                Row(
+                                  children: [
+                                    Radio<CarModeValue>(
+                                      value: CarModeValue.OUT,
+                                      groupValue: controller.selectedOption,
+                                      onChanged: (value) => controller.selectCarMode(value),
+                                    ),
+                                    Text("Out", style: TextStyle(
+                                      color: primaryColor,
+                                      fontWeight: FontWeight.w400,
+                                      fontSize: 16,
+                                      fontFamily: FontFamily.fontFamily,),)
+                                  ],
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                        const SizedBox(height: 10),
+                        Container(
                           decoration: BoxDecoration(
                             color: AppColor.neutral_100,
                             border: Border.all(color:buttoncolor, width: 0.7),
@@ -380,3 +436,6 @@ class _AddVehicleScreenState extends State<AddVehicleScreen> {
     );
   }
 }
+
+enum CarModeValue { IN, OUT }
+

@@ -71,7 +71,6 @@ class GetSfLocalStorage {
   }
 }
 
-
 class GetXStorageConstants {
   static const authToken = "Authorization";
   static const login = "login";

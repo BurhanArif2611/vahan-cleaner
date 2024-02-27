@@ -10,11 +10,13 @@ import '../../models/view_subscription_response.dart';
 import '../../shared_preferences/local_data.dart';
 import '../../utils/apis.dart';
 import '../../utils/snackbar.dart';
+import 'add_vahan_page.dart';
 import 'home_controller.dart';
 import 'package:flutter_image_compress/flutter_image_compress.dart';
 
 class AddPageController extends GetxController {
 
+  CarModeValue? selectedOption = CarModeValue.IN;
   var isLoading = false.obs;
   DateTime now = DateTime.now();
   var args = Get.arguments;
@@ -28,6 +30,11 @@ class AddPageController extends GetxController {
     vahans = args["vahanData"];
     imageBaseUrl = args['baseUrl'];
     super.onInit();
+  }
+
+  selectCarMode(CarModeValue? value) {
+    selectedOption = value;
+    update([GetXControllerBuilders.addVehicleController]);
   }
 
   ///Image Picked
@@ -74,6 +81,7 @@ class AddPageController extends GetxController {
 
     // Add form data to the request
     request.fields['date'] = formattedDate;
+    request.fields['mode'] = selectedOption == CarModeValue.IN ? "in" : "out";
     request.fields['subscription_id'] = vahans?.subscriptionId ?? "";
     request.files.add(http.MultipartFile('image', pickedImage!.readAsBytes().asStream(), pickedImage!.lengthSync(), filename: 'image.jpg',),
     );
