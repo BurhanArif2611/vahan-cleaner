@@ -77,6 +77,7 @@ class Stats {
 class Vahan {
   final String? subscriptionId;
   final String? name;
+  final String? flat_info;
   final String? brand;
   final String? model;
   final String? regNumber;
@@ -88,6 +89,7 @@ class Vahan {
   Vahan({
     this.subscriptionId,
     this.name,
+    this.flat_info,
     this.brand,
     this.model,
     this.regNumber,
@@ -100,6 +102,7 @@ class Vahan {
   Vahan copyWith({
     String? subscriptionId,
     String? name,
+    String? flat_info,
     String? brand,
     String? model,
     String? regNumber,
@@ -111,6 +114,7 @@ class Vahan {
       Vahan(
         subscriptionId: subscriptionId ?? this.subscriptionId,
         name: name ?? this.name,
+        flat_info: flat_info ?? this.flat_info,
         brand: brand ?? this.brand,
         model: model ?? this.model,
         regNumber: regNumber ?? this.regNumber,
@@ -123,6 +127,7 @@ class Vahan {
   factory Vahan.fromJson(Map<String, dynamic> json) => Vahan(
     subscriptionId: json["subscription_id"],
     name: json["name"],
+    flat_info: json["flat_info"],
     brand: json["brand"],
     model: json["model"],
     regNumber: json["reg_number"],
@@ -135,6 +140,7 @@ class Vahan {
   Map<String, dynamic> toJson() => {
     "subscription_id": subscriptionId,
     "name": name,
+    "flat_info": flat_info,
     "brand": brand,
     "model": model,
     "reg_number": regNumber,

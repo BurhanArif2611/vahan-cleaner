@@ -49,6 +49,19 @@ class _CustomAppBarState extends State<CustomAppBar> {
       ) : null,
       actions: [
         GestureDetector(
+          onTap: () {},
+          child: Container(
+            height: 40,
+            width: 40,
+            margin: const EdgeInsets.only(right: 16, top: 16),
+            decoration: BoxDecoration(
+              color: AppColor.neutral_100,
+              borderRadius: BorderRadius.circular(8),
+            ),
+            child: const Center(child: Icon(Icons.search_outlined, color: AppColor.neutral_700,)),
+          ),
+        ),
+        GestureDetector(
           onTap: () {
             showDialog(
               context: context,

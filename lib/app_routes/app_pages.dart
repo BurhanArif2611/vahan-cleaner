@@ -1,6 +1,6 @@
 import 'package:get/get.dart';
 import '../screen/authentication/log_in/login_screen.dart';
-import '../screen/home_page/add_vahan_page.dart';
+import '../screen/home_page/add_vahan_page/add_vahan_page.dart';
 import '../screen/home_page/home_page_screen.dart';
 import 'app_routes.dart';
 

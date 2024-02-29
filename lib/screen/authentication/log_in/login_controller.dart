@@ -27,29 +27,34 @@ class LoginController extends GetxController {
     isLoading(true);
     var request = http.MultipartRequest('POST', Uri.parse(Apis.baseUrl + Apis.loginWithPassword));
 
-    // Add form data to the request
     request.fields['mobile'] = emailController.text;
     request.fields['lastlogin_ip'] = '103.208.68.31';
     request.fields['password'] = passwordController.text;
+    printApiBody(body: request.fields.toString());
+
     try {
       var response = await request.send();
       var responseBody = await http.Response.fromStream(response);
       LoginResponse loginResponse = loginResponseFromJson(responseBody.body);
       if (response.statusCode == 200) {
         if(loginResponse.status ?? false) {
+          printApiResponse(url: (Uri.parse(Apis.baseUrl + Apis.loginWithPassword).toString()), statusCode: response.statusCode.toString(), response: responseBody.body );
+          // ignore: use_build_context_synchronously
           setSnackBar(loginResponse.message ?? "", context, loginResponse.status ?? false);
           GetSfLocalStorage.setAuthToken(loginResponse.cleanerdata?.token ?? "");
           Get.offAllNamed(AppRoutes.homePage);
         } else {
+          printApiResponse(url: (Uri.parse(Apis.baseUrl + Apis.loginWithPassword).toString()), statusCode: response.statusCode.toString(), response: responseBody.body );
+          // ignore: use_build_context_synchronously
           setSnackBar(loginResponse.message ?? "", context, loginResponse.status ?? false);
         }
-        print('Response: ${await http.Response.fromStream(response)}');
       } else {
-        print('Request failed with status: ${response.statusCode}');
+        printApiResponse(url: (Uri.parse(Apis.baseUrl + Apis.loginWithPassword).toString()), statusCode: response.statusCode.toString(), response: responseBody.body );
+        // ignore: use_build_context_synchronously
         setSnackBar(loginResponse.message ?? "", context, loginResponse.status ?? false);
       }
     } catch (e) {
-      print('Error: $e');
+      printCatchError(url: (Uri.parse(Apis.baseUrl + Apis.loginWithPassword).toString()), error: e.toString());
     }
     isLoading(false);
   }

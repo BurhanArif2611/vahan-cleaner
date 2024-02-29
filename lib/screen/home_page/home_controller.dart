@@ -34,8 +34,8 @@ class HomePageController extends GetxController {
   /// Method use to get vehicles brands response.
   Future<void> getVahanData() async {
     isLoading(true);
+    String formattedDate = DateFormat('yyyy-MM-dd').format(now);
     try {
-      String formattedDate = DateFormat('yyyy-MM-dd').format(now);
       final response = await http.get(Uri.parse("${Apis.baseUrl}${Apis.getCleaner}${GetSfLocalStorage.getAuthToken()}&date=$formattedDate"));
       ViewSubscriptionResponse vahansLIst = viewSubscriptionResponseFromJson(response.body);
       if (response.statusCode == 200) {
@@ -45,16 +45,14 @@ class HomePageController extends GetxController {
           stats = vahansLIst.stats;
           balance = stats?.balance;
           todaysEarning = stats?.todaysEarning;
-          print('Data: ${response.body}');
+          printApiResponse(url: (Uri.parse("${Apis.baseUrl}${Apis.getCleaner}${GetSfLocalStorage.getAuthToken()}&date=$formattedDate").toString()), response: response.body, statusCode: response.statusCode.toString());
         }
-        print('Data: ${response.body}');
       } else {
-        // Handle error response
-        print('Failed to load data. Status code: ${response.statusCode}');
+        printApiResponse(url: (Uri.parse("${Apis.baseUrl}${Apis.getCleaner}${GetSfLocalStorage.getAuthToken()}&date=$formattedDate").toString()), response: response.body, statusCode: response.statusCode.toString());
         setSnackBar("Failed to load data. Status code: ${response.statusCode}", Get.context, vahansLIst.status ?? false);
       }
     } catch (e) {
-      print('Error: ${e}');
+      printCatchError(url: (Uri.parse("${Apis.baseUrl}${Apis.getCleaner}${GetSfLocalStorage.getAuthToken()}&date=$formattedDate").toString()), error: e.toString());
     }
     isLoading(false);
     update([GetXControllerBuilders.homePageController]);

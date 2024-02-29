@@ -2,11 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
-import '../../../get_controller_builder.dart';
-import '../../../utils/font_family.dart';
-import '../../../utils/loading.dart';
-import '../../../widget/common_app_bar.dart';
-import '../../utils/colors.dart';
+import '../../../../get_controller_builder.dart';
+import '../../../../utils/font_family.dart';
+import '../../../../utils/loading.dart';
+import '../../../../widget/common_app_bar.dart';
+import '../../../utils/colors.dart';
 import 'add_page_controller.dart';
 
 class AddVehicleScreen extends StatefulWidget {
@@ -200,39 +200,39 @@ class _AddVehicleScreenState extends State<AddVehicleScreen> {
                                 Row(
                                   children: [
                                     const Icon(Icons.cleaning_services, color: AppColor.orange_200,),
-                                    Text(" Clean Mode", style: TextStyle(
+                                    Text(" Mode", style: TextStyle(
                                       color: primaryColor,
                                       fontWeight: FontWeight.w400,
                                       fontSize: 16,
                                       fontFamily: FontFamily.fontFamily,),)
                                   ],
                                 ),
-                                Spacer(),
+                                const Spacer(),
                                 Row(
                                   children: [
                                     Radio<CarModeValue>(
-                                      value: CarModeValue.IN,
+                                      value: CarModeValue.External,
                                       groupValue: controller.selectedOption,
                                       onChanged: (value) => controller.selectCarMode(value),
                                     ),
-                                    Text("In", style: TextStyle(
+                                    Text("External", style: TextStyle(
                                       color: primaryColor,
                                       fontWeight: FontWeight.w400,
-                                      fontSize: 16,
+                                      fontSize: 14,
                                       fontFamily: FontFamily.fontFamily,),)
                                   ],
                                 ),
                                 Row(
                                   children: [
                                     Radio<CarModeValue>(
-                                      value: CarModeValue.OUT,
+                                      value: CarModeValue.Internal,
                                       groupValue: controller.selectedOption,
                                       onChanged: (value) => controller.selectCarMode(value),
                                     ),
-                                    Text("Out", style: TextStyle(
+                                    Text("Internal", style: TextStyle(
                                       color: primaryColor,
                                       fontWeight: FontWeight.w400,
-                                      fontSize: 16,
+                                      fontSize: 14,
                                       fontFamily: FontFamily.fontFamily,),)
                                   ],
                                 ),
@@ -437,5 +437,5 @@ class _AddVehicleScreenState extends State<AddVehicleScreen> {
   }
 }
 
-enum CarModeValue { IN, OUT }
+enum CarModeValue { Internal, External }
 

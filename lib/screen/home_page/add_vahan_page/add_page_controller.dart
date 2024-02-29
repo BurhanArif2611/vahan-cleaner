@@ -4,19 +4,19 @@ import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:http/http.dart' as http;
 import 'package:intl/intl.dart';
-import '../../get_controller_builder.dart';
-import '../../models/add_vahan_response.dart';
-import '../../models/view_subscription_response.dart';
-import '../../shared_preferences/local_data.dart';
-import '../../utils/apis.dart';
-import '../../utils/snackbar.dart';
+import '../../../get_controller_builder.dart';
+import '../../../models/add_vahan_response.dart';
+import '../../../models/view_subscription_response.dart';
+import '../../../shared_preferences/local_data.dart';
+import '../../../utils/apis.dart';
+import '../../../utils/snackbar.dart';
 import 'add_vahan_page.dart';
-import 'home_controller.dart';
+import '../home_controller.dart';
 import 'package:flutter_image_compress/flutter_image_compress.dart';
 
 class AddPageController extends GetxController {
 
-  CarModeValue? selectedOption = CarModeValue.IN;
+  CarModeValue? selectedOption = CarModeValue.External;
   var isLoading = false.obs;
   DateTime now = DateTime.now();
   var args = Get.arguments;
@@ -42,13 +42,12 @@ class AddPageController extends GetxController {
     try {
       final photo = await ImagePicker().pickImage(source: imageType);
       if (photo == null) return;
-      // Compress the picked image
       pickedImage = await compressImage(XFile(photo.path));
-      //pickedImage = File(photo.path);
+      // ignore: use_build_context_synchronously
       addCleaning(context);
       Get.back();
     } catch (error) {
-      debugPrint(error.toString());
+      printImageError(error: error.toString());
     }
     update([GetXControllerBuilders.addVehicleController]);
   }
@@ -79,32 +78,36 @@ class AddPageController extends GetxController {
     var request = http.MultipartRequest('POST', Uri.parse(Apis.baseUrl + Apis.addCleaner + GetSfLocalStorage.getAuthToken()));
     String formattedDate = DateFormat('yyyy-MM-dd').format(now);
 
-    // Add form data to the request
     request.fields['date'] = formattedDate;
-    request.fields['mode'] = selectedOption == CarModeValue.IN ? "in" : "out";
+    request.fields['mode'] = selectedOption == CarModeValue.Internal ? "in" : "out";
     request.fields['subscription_id'] = vahans?.subscriptionId ?? "";
-    request.files.add(http.MultipartFile('image', pickedImage!.readAsBytes().asStream(), pickedImage!.lengthSync(), filename: 'image.jpg',),
-    );
+    request.files.add(http.MultipartFile('image', pickedImage!.readAsBytes().asStream(), pickedImage!.lengthSync(), filename: 'image.jpg'));
+    printApiBody(body: request.fields.toString());
+
     try {
       var response = await request.send();
       var responseBody = await http.Response.fromStream(response);
       AddVahanResponse loginResponse = addVahanResponseFromJson(responseBody.body);
       if (response.statusCode == 200) {
         if(loginResponse.status ?? false) {
+          printApiResponse(url: (Uri.parse(Apis.baseUrl + Apis.addCleaner + GetSfLocalStorage.getAuthToken()).toString()), response: responseBody.body, statusCode: response.statusCode.toString());
           HomePageController homePageController = Get.put(HomePageController());
           homePageController.getVahanData();
           Get.back();
+          // ignore: use_build_context_synchronously
           setSnackBar(loginResponse.message ?? "", context, loginResponse.status ?? false);
         } else {
+          printApiResponse(url: (Uri.parse(Apis.baseUrl + Apis.addCleaner + GetSfLocalStorage.getAuthToken()).toString()), response: responseBody.body, statusCode: response.statusCode.toString());
+          // ignore: use_build_context_synchronously
           setSnackBar(loginResponse.message ?? "", context, loginResponse.status ?? false);
         }
-        print('Response: ${await http.Response.fromStream(response)}');
       } else {
-        print('Request failed with status: ${response.statusCode}');
+        printApiResponse(url: (Uri.parse(Apis.baseUrl + Apis.addCleaner + GetSfLocalStorage.getAuthToken()).toString()), response: responseBody.body, statusCode: response.statusCode.toString());
+        // ignore: use_build_context_synchronously
         setSnackBar(loginResponse.message ?? "", context, loginResponse.status ?? false);
       }
     } catch (e) {
-      print('Error: $e');
+      printCatchError(url: (Uri.parse(Apis.baseUrl + Apis.addCleaner + GetSfLocalStorage.getAuthToken()).toString()), error: e.toString());
     }
     isLoading(false);
     update([GetXControllerBuilders.homePageController]);
