@@ -1,36 +1,36 @@
 import 'dart:convert';
 
-ViewSubscriptionResponse viewSubscriptionResponseFromJson(String str) => ViewSubscriptionResponse.fromJson(json.decode(str));
+ViewPendingSubscriptionResponse viewSubscriptionResponseFromJson(String str) => ViewPendingSubscriptionResponse.fromJson(json.decode(str));
 
-String viewSubscriptionResponseToJson(ViewSubscriptionResponse data) => json.encode(data.toJson());
+String viewSubscriptionResponseToJson(ViewPendingSubscriptionResponse data) => json.encode(data.toJson());
 
-class ViewSubscriptionResponse {
+class ViewPendingSubscriptionResponse {
   final bool? status;
   final List<Vahan>? vahans;
   final String? baseurl;
   final Stats? stats;
 
-  ViewSubscriptionResponse({
+  ViewPendingSubscriptionResponse({
     this.status,
     this.vahans,
     this.baseurl,
     this.stats,
   });
 
-  ViewSubscriptionResponse copyWith({
+  ViewPendingSubscriptionResponse copyWith({
     bool? status,
     List<Vahan>? vahans,
     String? baseurl,
     Stats? stats,
   }) =>
-      ViewSubscriptionResponse(
+      ViewPendingSubscriptionResponse(
         status: status ?? this.status,
         vahans: vahans ?? this.vahans,
         baseurl: baseurl ?? this.baseurl,
         stats: stats ?? this.stats,
       );
 
-  factory ViewSubscriptionResponse.fromJson(Map<String, dynamic> json) => ViewSubscriptionResponse(
+  factory ViewPendingSubscriptionResponse.fromJson(Map<String, dynamic> json) => ViewPendingSubscriptionResponse(
     status: json["status"],
     vahans: json["vahans"] == null ? [] : List<Vahan>.from(json["vahans"]!.map((x) => Vahan.fromJson(x))),
     baseurl: json["baseurl"],

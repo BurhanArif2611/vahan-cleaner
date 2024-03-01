@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import '../../app_routes/app_routes.dart';
 import '../../get_controller_builder.dart';
-import '../../models/view_subscription_response.dart';
+import '../../models/view_pending_subscription_response.dart';
 import '../../utils/colors.dart';
 import '../../utils/font_family.dart';
 import '../../widget/common_app_bar.dart';

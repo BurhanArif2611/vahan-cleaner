@@ -6,7 +6,7 @@ import 'package:http/http.dart' as http;
 import 'package:intl/intl.dart';
 import '../../../get_controller_builder.dart';
 import '../../../models/add_vahan_response.dart';
-import '../../../models/view_subscription_response.dart';
+import '../../../models/view_pending_subscription_response.dart';
 import '../../../shared_preferences/local_data.dart';
 import '../../../utils/apis.dart';
 import '../../../utils/snackbar.dart';
@@ -92,7 +92,7 @@ class AddPageController extends GetxController {
         if(loginResponse.status ?? false) {
           printApiResponse(url: (Uri.parse(Apis.baseUrl + Apis.addCleaner + GetSfLocalStorage.getAuthToken()).toString()), response: responseBody.body, statusCode: response.statusCode.toString());
           HomePageController homePageController = Get.put(HomePageController());
-          homePageController.getVahanData();
+          homePageController.getPendingVahanData();
           Get.back();
           // ignore: use_build_context_synchronously
           setSnackBar(loginResponse.message ?? "", context, loginResponse.status ?? false);
