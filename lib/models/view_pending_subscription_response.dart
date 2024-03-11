@@ -2,8 +2,6 @@ import 'dart:convert';
 
 ViewPendingSubscriptionResponse viewSubscriptionResponseFromJson(String str) => ViewPendingSubscriptionResponse.fromJson(json.decode(str));
 
-String viewSubscriptionResponseToJson(ViewPendingSubscriptionResponse data) => json.encode(data.toJson());
-
 class ViewPendingSubscriptionResponse {
   final bool? status;
   final List<Vahan>? vahans;
@@ -36,13 +34,6 @@ class ViewPendingSubscriptionResponse {
     baseurl: json["baseurl"],
     stats: json["stats"] == null ? null : Stats.fromJson(json["stats"]),
   );
-
-  Map<String, dynamic> toJson() => {
-    "status": status,
-    "vahans": vahans == null ? [] : List<dynamic>.from(vahans!.map((x) => x.toJson())),
-    "baseurl": baseurl,
-    "stats": stats?.toJson(),
-  };
 }
 
 class Stats {
@@ -99,31 +90,6 @@ class Vahan {
     this.points,
   });
 
-  Vahan copyWith({
-    String? subscriptionId,
-    String? name,
-    String? flat_info,
-    String? brand,
-    String? model,
-    String? regNumber,
-    String? parkingLocation,
-    String? image,
-    String? readyTime,
-    String? points,
-  }) =>
-      Vahan(
-        subscriptionId: subscriptionId ?? this.subscriptionId,
-        name: name ?? this.name,
-        flat_info: flat_info ?? this.flat_info,
-        brand: brand ?? this.brand,
-        model: model ?? this.model,
-        regNumber: regNumber ?? this.regNumber,
-        parkingLocation: parkingLocation ?? this.parkingLocation,
-        image: image ?? this.image,
-        readyTime: readyTime ?? this.readyTime,
-        points: points ?? this.points,
-      );
-
   factory Vahan.fromJson(Map<String, dynamic> json) => Vahan(
     subscriptionId: json["subscription_id"],
     name: json["name"],
@@ -136,17 +102,4 @@ class Vahan {
     readyTime: json["ready_time"],
     points: json["points"],
   );
-
-  Map<String, dynamic> toJson() => {
-    "subscription_id": subscriptionId,
-    "name": name,
-    "flat_info": flat_info,
-    "brand": brand,
-    "model": model,
-    "reg_number": regNumber,
-    "parking_location": parkingLocation,
-    "image": image,
-    "ready_time": readyTime,
-    "points": points,
-  };
 }

@@ -10,7 +10,7 @@ import '../../../utils/colors.dart';
 import 'add_page_controller.dart';
 
 class AddVehicleScreen extends StatefulWidget {
-  AddVehicleScreen({Key? key}) : super(key: key);
+  const AddVehicleScreen({Key? key}) : super(key: key);
   @override
   State<AddVehicleScreen> createState() => _AddVehicleScreenState();
 }
@@ -271,7 +271,7 @@ class _AddVehicleScreenState extends State<AddVehicleScreen> {
                                   ),
                           ),
                         ),
-                        SizedBox(height: 8),
+                        const SizedBox(height: 8),
                         GestureDetector(
                           onTap: () {
                             imagePickerOption(controller, context);
@@ -297,9 +297,7 @@ class _AddVehicleScreenState extends State<AddVehicleScreen> {
               );
             }
         ),
-        Obx(
-              () => Utility.loaderWidget(addVehicleController.isLoading.value),
-        )
+        Obx(() => Utility.loaderWidget(addVehicleController.isLoading.value)),
       ],
     );
   }

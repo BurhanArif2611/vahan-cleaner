@@ -1,26 +1,25 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:vahan_cleaner/models/view_completed_subscription_response.dart';
-import '../../../app_routes/app_routes.dart';
-import '../../../get_controller_builder.dart';
-import '../../../utils/colors.dart';
-import '../../../utils/font_family.dart';
-import '../../../utils/loading.dart';
+import '../../../../get_controller_builder.dart';
+import '../../../../utils/colors.dart';
+import '../../../../utils/font_family.dart';
+import '../../../../utils/loading.dart';
 import 'complete_screen_controller.dart';
 
-class CompleteScreen extends StatefulWidget {
-  const CompleteScreen({super.key});
+class CompleteSubscriptionScreen extends StatefulWidget {
+  const CompleteSubscriptionScreen({super.key});
 
   @override
-  State<CompleteScreen> createState() => _CompleteScreenState();
+  State<CompleteSubscriptionScreen> createState() => _CompleteSubscriptionScreenState();
 }
 
-class _CompleteScreenState extends State<CompleteScreen> {
-  CompleteScreenController completeScreenController = Get.put(CompleteScreenController());
+class _CompleteSubscriptionScreenState extends State<CompleteSubscriptionScreen> {
+  CompleteSubscriptionController completeScreenController = Get.put(CompleteSubscriptionController());
 
   @override
   Widget build(BuildContext context) {
-    return GetBuilder<CompleteScreenController>(
+    return GetBuilder<CompleteSubscriptionController>(
         id: GetXControllerBuilders.completedScreenController,
         init: completeScreenController,
         builder: (controller) {
@@ -33,36 +32,25 @@ class _CompleteScreenState extends State<CompleteScreen> {
                     padding: const EdgeInsets.all(20.0),
                     child: Column(
                       children: [
-                        Row(
-                        children: [
-                          Text(
-                            "From Dusty Ride to Shiny Pride,",
-                            style: TextStyle(
-                              color: primaryColor,
-                              fontWeight: FontWeight.w600,
-                              fontSize: 20,
-                              fontFamily: FontFamily.fontFamily,
+                        TextField(
+                          controller: controller.searchController,
+                          onChanged: (value) {
+                            if (controller.searchController.text.isEmpty) {
+                              controller.filteredCompleteVahans = controller.completeVahans ?? [];
+                              controller.update([GetXControllerBuilders.completedScreenController]);
+                            } else {
+                              controller.filterCompleteVahanList(value);
+                            }
+                          },
+                          decoration: InputDecoration(
+                            labelText: 'Search',
+                            contentPadding: EdgeInsets.zero,
+                            prefixIcon: const Icon(Icons.search),
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(10.0),
                             ),
                           ),
-                        ],
-                      ),
-                      Row(
-                        children: [
-                          SizedBox(
-                            width: MediaQuery.of(context).size.width - 40,
-                            child: Text(
-                              "Get paid on every cars dusting and transform them from drab to fab.",
-                              maxLines: 2,
-                              style: TextStyle(
-                                color: primaryColor,
-                                fontWeight: FontWeight.w400,
-                                fontSize: 16,
-                                fontFamily: FontFamily.fontFamily,
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
+                        ),
                         const SizedBox(height: 15),
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -169,11 +157,11 @@ class _CompleteScreenState extends State<CompleteScreen> {
                         ),
                         const SizedBox(height: 10),
                         ListView.builder(
-                            itemCount: controller.completeVahans?.length ?? 0,
+                            itemCount: controller.filteredCompleteVahans.length,
                             physics: const NeverScrollableScrollPhysics(),
                             shrinkWrap: true,
                             itemBuilder: (context, index) {
-                              CompleteVahan? vahanData = controller.completeVahans?[index];
+                              CompleteVahan? completeVahanData = controller.filteredCompleteVahans[index];
                               return Container(
                                 padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
                                 margin: const EdgeInsets.only(bottom: 10),
@@ -183,8 +171,7 @@ class _CompleteScreenState extends State<CompleteScreen> {
                                     border: Border.all(color: AppColor.orange_100),
                                     boxShadow: [
                                       BoxShadow(
-                                          color: AppColor.neutral_300
-                                              .withOpacity(0.6),
+                                          color: AppColor.neutral_300.withOpacity(0.6),
                                           offset: const Offset(0, 3),
                                           spreadRadius: 4,
                                           blurRadius: 4)
@@ -197,14 +184,14 @@ class _CompleteScreenState extends State<CompleteScreen> {
                                       crossAxisAlignment: CrossAxisAlignment.start,
                                       children: [
                                         Text(
-                                          vahanData?.regNumber ?? "",
+                                          completeVahanData?.regNumber ?? "",
                                           style: TextStyle(
                                               fontSize: 20,
                                               fontWeight: FontWeight.bold,
                                               fontFamily: FontFamily.fontFamily),
                                         ),
                                         Text(
-                                          " ${vahanData?.brand ?? ""} ${vahanData?.model ?? ""}",
+                                          " ${completeVahanData?.brand ?? ""} ${completeVahanData?.model ?? ""}",
                                           style: TextStyle(
                                               fontFamily: FontFamily.fontFamily,
                                               fontWeight: FontWeight.w500,
@@ -218,7 +205,7 @@ class _CompleteScreenState extends State<CompleteScreen> {
                                             SizedBox(
                                               width: 198,
                                               child: Text(
-                                                " ${vahanData?.name ?? ""} (${vahanData?.flatInfo ?? ""})",
+                                                " ${completeVahanData?.name ?? ""} (${completeVahanData?.flatInfo ?? ""})",
                                                 style: TextStyle(
                                                     fontFamily: FontFamily.fontFamily,
                                                     fontWeight: FontWeight.w500,

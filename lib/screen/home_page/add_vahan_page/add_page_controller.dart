@@ -11,7 +11,7 @@ import '../../../shared_preferences/local_data.dart';
 import '../../../utils/apis.dart';
 import '../../../utils/snackbar.dart';
 import 'add_vahan_page.dart';
-import '../home_controller.dart';
+import '../home_page_widget/pending_subscription_screen/pending_subscription_controller.dart';
 import 'package:flutter_image_compress/flutter_image_compress.dart';
 
 class AddPageController extends GetxController {
@@ -21,7 +21,7 @@ class AddPageController extends GetxController {
   DateTime now = DateTime.now();
   var args = Get.arguments;
 
-  Vahan? vahans;
+  var vahans;
   String? imageBaseUrl;
   File? pickedImage;
 
@@ -91,7 +91,7 @@ class AddPageController extends GetxController {
       if (response.statusCode == 200) {
         if(loginResponse.status ?? false) {
           printApiResponse(url: (Uri.parse(Apis.baseUrl + Apis.addCleaner + GetSfLocalStorage.getAuthToken()).toString()), response: responseBody.body, statusCode: response.statusCode.toString());
-          HomePageController homePageController = Get.put(HomePageController());
+          PendingSubscriptionController homePageController = Get.put(PendingSubscriptionController());
           homePageController.getPendingVahanData();
           Get.back();
           // ignore: use_build_context_synchronously
@@ -110,6 +110,6 @@ class AddPageController extends GetxController {
       printCatchError(url: (Uri.parse(Apis.baseUrl + Apis.addCleaner + GetSfLocalStorage.getAuthToken()).toString()), error: e.toString());
     }
     isLoading(false);
-    update([GetXControllerBuilders.homePageController]);
+    update([GetXControllerBuilders.pendingScreenController]);
   }
 }

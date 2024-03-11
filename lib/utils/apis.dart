@@ -3,6 +3,7 @@ class Apis {
   static String loginWithPassword = "cleaner/login.php";
   static String getPendingCleaner = "cleaner/get-subscriptions.php?token=";
   static String getCompletedCleaner = "cleaner/get-completed-subscription.php?token=";
+  static String getOtherCleaner = "cleaner/get-others-subscriptions.php?token=";
   static String addCleaner = "cleaner/cleaning-log.php?token=";
 }
 

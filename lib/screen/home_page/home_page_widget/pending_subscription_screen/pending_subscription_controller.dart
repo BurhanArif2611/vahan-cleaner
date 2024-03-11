@@ -3,20 +3,19 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 import 'package:intl/intl.dart';
-import '../../get_controller_builder.dart';
-import '../../models/view_pending_subscription_response.dart';
-import '../../shared_preferences/local_data.dart';
-import '../../utils/apis.dart';
-import '../../utils/snackbar.dart';
+import 'package:vahan_cleaner/shared_preferences/local_data.dart';
+import '../../../../get_controller_builder.dart';
+import '../../../../models/view_pending_subscription_response.dart';
+import '../../../../utils/apis.dart';
+import '../../../../utils/snackbar.dart';
 
-class HomePageController extends GetxController {
+class PendingSubscriptionController extends GetxController {
 
   TextEditingController searchController = TextEditingController();
-  List<Vahan>? filteredList;
   var isLoading = false.obs;
   DateTime now = DateTime.now();
-
-  List<Vahan>? vahans;
+  List<Vahan>? pendingVahans;
+  List<Vahan> filteredList = [];
   String? imageBaseUrl;
   Stats? stats;
   int? balance;
@@ -24,15 +23,8 @@ class HomePageController extends GetxController {
   File? pickedImage;
 
   @override
-  void onInit() async {
-    await getPendingVahanData();
-    if(vahans != null) {
-      for(int i = 0; i >= vahans!.length; i++) {
-        filteredList?.add(vahans![i]);
-        print("Single Item ${i} = $filteredList");
-      }
-    }
-    print("filter list: $filteredList");
+  void onInit() {
+    getPendingVahanData();
     super.onInit();
   }
 
@@ -43,27 +35,20 @@ class HomePageController extends GetxController {
 
   /// Method use to filter the data by search bar.
   void filterList(String query) {
-    isLoading(true);
-    filteredList?.clear();
-    if (query.isEmpty) {
-      filteredList?.addAll(vahans ?? []);
-    } else {
-      vahans?.forEach(
-        (item) {
-          if ((item.regNumber ?? "")
-                  .toLowerCase()
-                  .contains(query.toLowerCase()) ||
-              (item.parkingLocation ?? "")
-                  .toLowerCase()
-                  .contains(query.toLowerCase()) ||
+    try {
+      filteredList = [];
+      pendingVahans?.forEach((item) {
+          if ((item.regNumber ?? "").toLowerCase().contains(query.toLowerCase()) ||
+              (item.parkingLocation ?? "").toLowerCase().contains(query.toLowerCase()) ||
               (item.name ?? "").toLowerCase().contains(query.toLowerCase())) {
-            filteredList?.add(item);
+              filteredList.add(item);
           }
         },
       );
+    } catch (e) {
+      printCatchError(url: filteredList.toString(), error: e.toString());
     }
-    isLoading(false);
-    update([GetXControllerBuilders.homePageController]);
+    update([GetXControllerBuilders.pendingScreenController]);
   }
 
   /// Method use to get pending vehicles brands response.
@@ -75,7 +60,10 @@ class HomePageController extends GetxController {
       ViewPendingSubscriptionResponse vahansLIst = viewSubscriptionResponseFromJson(response.body);
       if (response.statusCode == 200) {
         if (vahansLIst.status ?? false) {
-          vahans = vahansLIst.vahans;
+          pendingVahans = vahansLIst.vahans;
+          for (Vahan vahan in pendingVahans ?? []) {
+            filteredList.add(vahan);
+          }
           imageBaseUrl = vahansLIst.baseurl ?? "";
           stats = vahansLIst.stats;
           balance = stats?.balance;
@@ -90,6 +78,6 @@ class HomePageController extends GetxController {
       printCatchError(url: (Uri.parse("${Apis.baseUrl}${Apis.getPendingCleaner}${GetSfLocalStorage.getAuthToken()}&date=$formattedDate").toString()), error: e.toString());
     }
     isLoading(false);
-    update([GetXControllerBuilders.homePageController]);
+    update([GetXControllerBuilders.pendingScreenController]);
   }
 }
