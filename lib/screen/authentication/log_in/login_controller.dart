@@ -25,7 +25,7 @@ class LoginController extends GetxController {
   /// Login api function with password.
   loginApiWithPassword(BuildContext context) async {
     isLoading(true);
-    var request = http.MultipartRequest('POST', Uri.parse(Apis.baseUrl + Apis.loginWithPassword));
+    var request = http.MultipartRequest('POST', Uri.parse(Apis.baseUrl + Apis.loginWithPasswordUrl));
 
     request.fields['mobile'] = emailController.text;
     request.fields['lastlogin_ip'] = '103.208.68.31';
@@ -38,23 +38,23 @@ class LoginController extends GetxController {
       LoginResponse loginResponse = loginResponseFromJson(responseBody.body);
       if (response.statusCode == 200) {
         if(loginResponse.status ?? false) {
-          printApiResponse(url: (Uri.parse(Apis.baseUrl + Apis.loginWithPassword).toString()), statusCode: response.statusCode.toString(), response: responseBody.body );
+          printApiResponse(url: (Uri.parse(Apis.baseUrl + Apis.loginWithPasswordUrl).toString()), statusCode: response.statusCode.toString(), response: responseBody.body );
           // ignore: use_build_context_synchronously
           setSnackBar(loginResponse.message ?? "", context, loginResponse.status ?? false);
           GetSfLocalStorage.setAuthToken(loginResponse.cleanerdata?.token ?? "");
           Get.offAllNamed(AppRoutes.homePage);
         } else {
-          printApiResponse(url: (Uri.parse(Apis.baseUrl + Apis.loginWithPassword).toString()), statusCode: response.statusCode.toString(), response: responseBody.body );
+          printApiResponse(url: (Uri.parse(Apis.baseUrl + Apis.loginWithPasswordUrl).toString()), statusCode: response.statusCode.toString(), response: responseBody.body );
           // ignore: use_build_context_synchronously
           setSnackBar(loginResponse.message ?? "", context, loginResponse.status ?? false);
         }
       } else {
-        printApiResponse(url: (Uri.parse(Apis.baseUrl + Apis.loginWithPassword).toString()), statusCode: response.statusCode.toString(), response: responseBody.body );
+        printApiResponse(url: (Uri.parse(Apis.baseUrl + Apis.loginWithPasswordUrl).toString()), statusCode: response.statusCode.toString(), response: responseBody.body );
         // ignore: use_build_context_synchronously
         setSnackBar(loginResponse.message ?? "", context, loginResponse.status ?? false);
       }
     } catch (e) {
-      printCatchError(url: (Uri.parse(Apis.baseUrl + Apis.loginWithPassword).toString()), error: e.toString());
+      printCatchError(url: (Uri.parse(Apis.baseUrl + Apis.loginWithPasswordUrl).toString()), error: e.toString());
     }
     isLoading(false);
   }

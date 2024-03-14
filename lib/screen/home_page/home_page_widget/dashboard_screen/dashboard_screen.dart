@@ -1,4 +1,6 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 import 'package:percent_indicator/circular_percent_indicator.dart';
 import 'package:vahan_cleaner/screen/home_page/home_page_widget/dashboard_screen/dashboard_screen_controller.dart';
@@ -86,7 +88,7 @@ class _DashBoardScreenState extends State<DashBoardScreen> {
                                       ),
                                       const SizedBox(width: 5),
                                       Text(
-                                        "20",
+                                        controller.balance.toString(),
                                         style: TextStyle(
                                             fontFamily: FontFamily.fontFamily,
                                             fontWeight: FontWeight.w500,
@@ -146,7 +148,7 @@ class _DashBoardScreenState extends State<DashBoardScreen> {
                                       ),
                                       const SizedBox(width: 5),
                                       Text(
-                                        "20",
+                                        controller.todaysEarning.toString(),
                                         style: TextStyle(
                                             fontFamily: FontFamily.fontFamily,
                                             fontWeight: FontWeight.w500,
@@ -183,7 +185,7 @@ class _DashBoardScreenState extends State<DashBoardScreen> {
                           child: Column(
                             children: [
                               Text(
-                                "Total balance",
+                                "This month earning",
                                 style: TextStyle(
                                     fontSize: 15,
                                     fontWeight: FontWeight.bold,
@@ -209,7 +211,7 @@ class _DashBoardScreenState extends State<DashBoardScreen> {
                                   ),
                                   const SizedBox(width: 5),
                                   Text(
-                                    "20",
+                                    controller.thismonthEarning.toString(),
                                     style: TextStyle(
                                         fontFamily: FontFamily.fontFamily,
                                         fontWeight: FontWeight.w500,
@@ -226,10 +228,10 @@ class _DashBoardScreenState extends State<DashBoardScreen> {
                         radius: 65.0,
                         lineWidth: 10.0,
                         animation: true,
-                        percent: 0.7,
-                        center: const Text(
-                          "70.0%",
-                          style: TextStyle(fontWeight: FontWeight.w500, fontSize: 20.0),
+                        percent: (controller.achivePrecentage/100),
+                        center: Text(
+                          "${controller.achivePrecentage.toStringAsFixed(2)} %",
+                          style: const TextStyle(fontWeight: FontWeight.w500, fontSize: 20.0),
                         ),
                         footer: const Text(
                           "Target completed",
@@ -244,7 +246,7 @@ class _DashBoardScreenState extends State<DashBoardScreen> {
                         children: [
                           GestureDetector(
                             onTap: () {
-                              controller.clockIn();
+                              controller.clockINOut(context);
                             },
                             child: Container(
                               width: MediaQuery.of(context).size.width * 0.4,
@@ -254,7 +256,7 @@ class _DashBoardScreenState extends State<DashBoardScreen> {
                                 gradient: LinearGradient(
                                   begin: Alignment.topRight,
                                   end: Alignment.bottomLeft,
-                                  colors: controller.isMark
+                                  colors: !controller.isMark
                                       ? [AppColor.green_400.withOpacity(0.5),
                                          AppColor.green_500]
                                       : [AppColor.red_400.withOpacity(0.5),
@@ -270,7 +272,7 @@ class _DashBoardScreenState extends State<DashBoardScreen> {
                                 ],
                               ),
                               child: Center(
-                                child: Text(controller.isMark ? "CLOCK IN" : "CLOCK OUT",
+                                child: Text(!controller.isMark ? "CLOCK IN" : "CLOCK OUT",
                                 style: TextStyle(
                                   color: AppColor.neutral_100,
                                   fontFamily: FontFamily.fontFamily,
@@ -282,7 +284,103 @@ class _DashBoardScreenState extends State<DashBoardScreen> {
                             ),
                           ),
                         ],
-                      )
+                      ),
+                      const SizedBox(height: 15),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Container(
+                            padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 8),
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(5),
+                              gradient: const LinearGradient(
+                                  begin: Alignment.topRight,
+                                  end: Alignment.bottomLeft,
+                                  colors: [
+                                    AppColor.primary_100,
+                                    AppColor.primary_200,
+                                  ]
+                              ),
+                            ),
+                            child: Column(
+                              children: [
+                                Text("In time",
+                                  style: TextStyle(
+                                      fontSize: 15,
+                                      fontWeight: FontWeight.w700,
+                                      fontFamily: FontFamily.fontFamily),
+                                ),
+                                Text("__:__",
+                                  style: TextStyle(
+                                      fontSize: 15,
+                                      fontWeight: FontWeight.w700,
+                                      fontFamily: FontFamily.fontFamily),
+                                ),
+                              ],
+                            ),
+                          ),
+                          Container(
+                            padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 8),
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(5),
+                              gradient: const LinearGradient(
+                                begin: Alignment.topRight,
+                                end: Alignment.bottomLeft,
+                                colors: [
+                                  AppColor.primary_100,
+                                  AppColor.primary_200,
+                                ]
+                              ),
+                            ),
+                            child: Column(
+                              children: [
+                                Text("Out time",
+                                  style: TextStyle(
+                                      fontSize: 15,
+                                      fontWeight: FontWeight.w700,
+                                      fontFamily: FontFamily.fontFamily),
+                                ),
+                                Text("__:__",
+                                  style: TextStyle(
+                                      fontSize: 15,
+                                      fontWeight: FontWeight.w700,
+                                      fontFamily: FontFamily.fontFamily),
+                                ),
+                              ],
+                            ),
+                          ),
+                          Container(
+                            padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 8),
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(5),
+                              gradient: const LinearGradient(
+                                  begin: Alignment.topRight,
+                                  end: Alignment.bottomLeft,
+                                  colors: [
+                                    AppColor.primary_100,
+                                    AppColor.primary_200,
+                                  ]
+                              ),
+                            ),
+                            child: Column(
+                              children: [
+                                Text("Working Hours",
+                                  style: TextStyle(
+                                      fontSize: 15,
+                                      fontWeight: FontWeight.w700,
+                                      fontFamily: FontFamily.fontFamily),
+                                ),
+                                Text("__:__",
+                                  style: TextStyle(
+                                      fontSize: 15,
+                                      fontWeight: FontWeight.w700,
+                                      fontFamily: FontFamily.fontFamily),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ],
+                      ),
                     ],
                   ),
                 ),

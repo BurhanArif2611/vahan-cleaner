@@ -1,10 +1,8 @@
-import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 import 'package:intl/intl.dart';
 import '../../../../get_controller_builder.dart';
-import '../../../../models/view_completed_subscription_response.dart';
 import '../../../../models/view_other_subscription_response.dart';
 import '../../../../shared_preferences/local_data.dart';
 import '../../../../utils/apis.dart';
@@ -56,7 +54,7 @@ class OtherSubscriptionController extends GetxController {
     isLoading(true);
     String formattedDate = DateFormat('yyyy-MM-dd').format(now);
     try {
-      final response = await http.get(Uri.parse("${Apis.baseUrl}${Apis.getOtherCleaner}${GetSfLocalStorage.getAuthToken()}&date=$formattedDate"));
+      final response = await http.get(Uri.parse("${Apis.baseUrl}${Apis.getOtherCleanerUrl}${GetSfLocalStorage.getAuthToken()}&date=$formattedDate"));
       OtherSubscriptionModel otherVahanData = otherSubscriptionModelFromJson(response.body);
       if (response.statusCode == 200) {
         if (otherVahanData.status ?? false) {
@@ -68,14 +66,14 @@ class OtherSubscriptionController extends GetxController {
           othersStats = otherVahanData.stats;
           balance = othersStats?.balance;
           todaysEarning = othersStats?.todaysEarning;
-          printApiResponse(url: (Uri.parse("${Apis.baseUrl}${Apis.getOtherCleaner}${GetSfLocalStorage.getAuthToken()}&date=$formattedDate").toString()), response: response.body, statusCode: response.statusCode.toString());
+          printApiResponse(url: (Uri.parse("${Apis.baseUrl}${Apis.getOtherCleanerUrl}${GetSfLocalStorage.getAuthToken()}&date=$formattedDate").toString()), response: response.body, statusCode: response.statusCode.toString());
         }
       } else {
-        printApiResponse(url: (Uri.parse("${Apis.baseUrl}${Apis.getOtherCleaner}${GetSfLocalStorage.getAuthToken()}&date=$formattedDate").toString()), response: response.body, statusCode: response.statusCode.toString());
+        printApiResponse(url: (Uri.parse("${Apis.baseUrl}${Apis.getOtherCleanerUrl}${GetSfLocalStorage.getAuthToken()}&date=$formattedDate").toString()), response: response.body, statusCode: response.statusCode.toString());
         setSnackBar("Failed to load data. Status code: ${response.statusCode}", Get.context, otherVahanData.status ?? false);
       }
     } catch (e) {
-      printCatchError(url: (Uri.parse("${Apis.baseUrl}${Apis.getOtherCleaner}${GetSfLocalStorage.getAuthToken()}&date=$formattedDate").toString()), error: e.toString());
+      printCatchError(url: (Uri.parse("${Apis.baseUrl}${Apis.getOtherCleanerUrl}${GetSfLocalStorage.getAuthToken()}&date=$formattedDate").toString()), error: e.toString());
     }
     isLoading(false);
     update([GetXControllerBuilders.otherScreenController]);

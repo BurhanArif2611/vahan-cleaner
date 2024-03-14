@@ -75,7 +75,7 @@ class AddPageController extends GetxController {
   /// Login api function with password.
   addCleaning(BuildContext context) async {
     isLoading(true);
-    var request = http.MultipartRequest('POST', Uri.parse(Apis.baseUrl + Apis.addCleaner + GetSfLocalStorage.getAuthToken()));
+    var request = http.MultipartRequest('POST', Uri.parse(Apis.baseUrl + Apis.addCleanerUrl + GetSfLocalStorage.getAuthToken()));
     String formattedDate = DateFormat('yyyy-MM-dd').format(now);
 
     request.fields['date'] = formattedDate;
@@ -90,24 +90,24 @@ class AddPageController extends GetxController {
       AddVahanResponse loginResponse = addVahanResponseFromJson(responseBody.body);
       if (response.statusCode == 200) {
         if(loginResponse.status ?? false) {
-          printApiResponse(url: (Uri.parse(Apis.baseUrl + Apis.addCleaner + GetSfLocalStorage.getAuthToken()).toString()), response: responseBody.body, statusCode: response.statusCode.toString());
+          printApiResponse(url: (Uri.parse(Apis.baseUrl + Apis.addCleanerUrl + GetSfLocalStorage.getAuthToken()).toString()), response: responseBody.body, statusCode: response.statusCode.toString());
           PendingSubscriptionController homePageController = Get.put(PendingSubscriptionController());
           homePageController.getPendingVahanData();
           Get.back();
           // ignore: use_build_context_synchronously
           setSnackBar(loginResponse.message ?? "", context, loginResponse.status ?? false);
         } else {
-          printApiResponse(url: (Uri.parse(Apis.baseUrl + Apis.addCleaner + GetSfLocalStorage.getAuthToken()).toString()), response: responseBody.body, statusCode: response.statusCode.toString());
+          printApiResponse(url: (Uri.parse(Apis.baseUrl + Apis.addCleanerUrl + GetSfLocalStorage.getAuthToken()).toString()), response: responseBody.body, statusCode: response.statusCode.toString());
           // ignore: use_build_context_synchronously
           setSnackBar(loginResponse.message ?? "", context, loginResponse.status ?? false);
         }
       } else {
-        printApiResponse(url: (Uri.parse(Apis.baseUrl + Apis.addCleaner + GetSfLocalStorage.getAuthToken()).toString()), response: responseBody.body, statusCode: response.statusCode.toString());
+        printApiResponse(url: (Uri.parse(Apis.baseUrl + Apis.addCleanerUrl + GetSfLocalStorage.getAuthToken()).toString()), response: responseBody.body, statusCode: response.statusCode.toString());
         // ignore: use_build_context_synchronously
         setSnackBar(loginResponse.message ?? "", context, loginResponse.status ?? false);
       }
     } catch (e) {
-      printCatchError(url: (Uri.parse(Apis.baseUrl + Apis.addCleaner + GetSfLocalStorage.getAuthToken()).toString()), error: e.toString());
+      printCatchError(url: (Uri.parse(Apis.baseUrl + Apis.addCleanerUrl + GetSfLocalStorage.getAuthToken()).toString()), error: e.toString());
     }
     isLoading(false);
     update([GetXControllerBuilders.pendingScreenController]);

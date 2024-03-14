@@ -57,7 +57,7 @@ class CompleteSubscriptionController extends GetxController {
     isLoading(true);
     String formattedDate = DateFormat('yyyy-MM-dd').format(now);
     try {
-      final response = await http.get(Uri.parse("${Apis.baseUrl}${Apis.getCompletedCleaner}${GetSfLocalStorage.getAuthToken()}&date=$formattedDate"));
+      final response = await http.get(Uri.parse("${Apis.baseUrl}${Apis.getCompletedCleanerUrl}${GetSfLocalStorage.getAuthToken()}&date=$formattedDate"));
       ViewCompletedSubscriptionResponse completeVahanData = viewCompletedSubscriptionResponseFromJson(response.body);
       if (response.statusCode == 200) {
         if (completeVahanData.status ?? false) {
@@ -69,14 +69,14 @@ class CompleteSubscriptionController extends GetxController {
           stats = completeVahanData.stats;
           balance = stats?.balance;
           todaysEarning = stats?.todaysEarning;
-          printApiResponse(url: (Uri.parse("${Apis.baseUrl}${Apis.getCompletedCleaner}${GetSfLocalStorage.getAuthToken()}&date=$formattedDate").toString()), response: response.body, statusCode: response.statusCode.toString());
+          printApiResponse(url: (Uri.parse("${Apis.baseUrl}${Apis.getCompletedCleanerUrl}${GetSfLocalStorage.getAuthToken()}&date=$formattedDate").toString()), response: response.body, statusCode: response.statusCode.toString());
         }
       } else {
-        printApiResponse(url: (Uri.parse("${Apis.baseUrl}${Apis.getCompletedCleaner}${GetSfLocalStorage.getAuthToken()}&date=$formattedDate").toString()), response: response.body, statusCode: response.statusCode.toString());
+        printApiResponse(url: (Uri.parse("${Apis.baseUrl}${Apis.getCompletedCleanerUrl}${GetSfLocalStorage.getAuthToken()}&date=$formattedDate").toString()), response: response.body, statusCode: response.statusCode.toString());
         setSnackBar("Failed to load data. Status code: ${response.statusCode}", Get.context, completeVahanData.status ?? false);
       }
     } catch (e) {
-      printCatchError(url: (Uri.parse("${Apis.baseUrl}${Apis.getCompletedCleaner}${GetSfLocalStorage.getAuthToken()}&date=$formattedDate").toString()), error: e.toString());
+      printCatchError(url: (Uri.parse("${Apis.baseUrl}${Apis.getCompletedCleanerUrl}${GetSfLocalStorage.getAuthToken()}&date=$formattedDate").toString()), error: e.toString());
     }
     isLoading(false);
     update([GetXControllerBuilders.completedScreenController]);
