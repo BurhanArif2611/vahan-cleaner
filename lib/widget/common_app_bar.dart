@@ -7,7 +7,7 @@ import '../utils/font_family.dart';
 import '../utils/snackbar.dart';
 
 class CustomAppBar extends StatefulWidget {
-bool isBack;
+  bool isBack;
   CustomAppBar({required this.isBack, Key? key}) : super(key: key);
 
   @override
@@ -15,7 +15,6 @@ bool isBack;
 }
 
 class _CustomAppBarState extends State<CustomAppBar> {
-
   @override
   Widget build(BuildContext context) {
     return AppBar(
@@ -32,21 +31,27 @@ class _CustomAppBarState extends State<CustomAppBar> {
           ),
         ],
       ),
-      leading: widget.isBack ? GestureDetector(
-        onTap: () {
-          Get.back();
-        },
-        child: Container(
-          height: 40,
-          width: 40,
-          margin: const EdgeInsets.only(left: 16, top: 16),
-          decoration: BoxDecoration(
-            color: AppColor.neutral_100,
-            borderRadius: BorderRadius.circular(8),
-          ),
-          child: const Center(child: Icon(Icons.arrow_back, color: AppColor.neutral_700,)),
-        ),
-      ) : null,
+      leading: widget.isBack
+          ? GestureDetector(
+              onTap: () {
+                Get.back();
+              },
+              child: Container(
+                height: 40,
+                width: 40,
+                margin: const EdgeInsets.only(left: 16, top: 16),
+                decoration: BoxDecoration(
+                  color: AppColor.neutral_100,
+                  borderRadius: BorderRadius.circular(8),
+                ),
+                child: const Center(
+                    child: Icon(
+                  Icons.arrow_back,
+                  color: AppColor.neutral_700,
+                )),
+              ),
+            )
+          : null,
       actions: [
         GestureDetector(
           onTap: () {
@@ -55,7 +60,8 @@ class _CustomAppBarState extends State<CustomAppBar> {
               builder: (BuildContext context) {
                 return AlertDialog(
                   title: Center(
-                    child: Text('Confirmation',
+                    child: Text(
+                      'Confirmation',
                       style: TextStyle(
                         color: primaryColor,
                         fontWeight: FontWeight.bold,
@@ -64,43 +70,59 @@ class _CustomAppBarState extends State<CustomAppBar> {
                       ),
                     ),
                   ),
-                  content: Text('Are you sure you want to log out?',
+                  content: Text(
+                    'Are you sure you want to log out?',
                     style: TextStyle(
-                    color: primaryColor,
-                    fontWeight: FontWeight.w400,
-                    fontSize: 12,
-                    fontFamily: FontFamily.fontFamily,
+                      color: primaryColor,
+                      fontWeight: FontWeight.w400,
+                      fontSize: 12,
+                      fontFamily: FontFamily.fontFamily,
+                    ),
                   ),
-                                  ),
                   actions: <Widget>[
-                    TextButton(
-                      onPressed: () {
-                        Get.back();
-                      },
-                      child: Text('Cancel',
-                        style: TextStyle(
-                          color: primaryColor,
-                          fontWeight: FontWeight.bold,
-                          fontSize: 12,
-                          fontFamily: FontFamily.fontFamily,
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        TextButton(
+                          onPressed: () {
+                            Get.back();
+                          },
+                          child: Text(
+                            'Cancel',
+                            style: TextStyle(
+                              color: primaryColor,
+                              fontWeight: FontWeight.bold,
+                              fontSize: 12,
+                              fontFamily: FontFamily.fontFamily,
+                            ),
+                          ),
                         ),
-                      ),
-                    ),
-                    TextButton(
-                      onPressed: () {
-                        GetSfLocalStorage.clear();
-                        setSnackBar("Logout Successfully", context, true);
-                        Get.offAllNamed(AppRoutes.loginPage);
-                      },
-                      child: Text('OK',
-                        style: TextStyle(
-                          color: buttoncolor,
-                          fontWeight: FontWeight.bold,
-                          fontSize: 12,
-                          fontFamily: FontFamily.fontFamily,
+                        Container(
+                          height: 30,
+                          width: 2,
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(5),
+                            color: AppColor.neutral_500,
+                          ),
                         ),
-                      ),
-                    ),
+                        TextButton(
+                          onPressed: () {
+                            GetSfLocalStorage.clear();
+                            setSnackBar("Logout Successfully", context, true);
+                            Get.offAllNamed(AppRoutes.loginPage);
+                          },
+                          child: Text(
+                            'OK',
+                            style: TextStyle(
+                              color: buttoncolor,
+                              fontWeight: FontWeight.bold,
+                              fontSize: 12,
+                              fontFamily: FontFamily.fontFamily,
+                            ),
+                          ),
+                        ),
+                      ],
+                    )
                   ],
                 );
               },
@@ -114,7 +136,11 @@ class _CustomAppBarState extends State<CustomAppBar> {
               color: AppColor.neutral_100,
               borderRadius: BorderRadius.circular(8),
             ),
-            child: const Center(child: Icon(Icons.logout_outlined, color: AppColor.neutral_700,)),
+            child: const Center(
+                child: Icon(
+              Icons.logout_outlined,
+              color: AppColor.neutral_700,
+            )),
           ),
         )
       ],

@@ -11,17 +11,19 @@ import 'package:http/http.dart' as http;
 import '../../../../utils/snackbar.dart';
 
 class DashBoardScreenController extends GetxController{
-  bool isMark = false;
   var isLoading = false.obs;
   Position? currentPosition;
   String latitude = "";
   String longitude = "";
+  String clockInTime = "";
+  String clockOutTime = "";
+  String workingHr = "";
+  String acheived = "";
+  String inTime = "";
   int balance = 0;
   int todaysEarning = 0;
   int thismonthEarning = 0;
   int target = 0;
-  String acheived = "";
-  String inTime = "";
   double achivePrecentage = 0.0;
 
   /// Initial method.
@@ -98,6 +100,21 @@ class DashBoardScreenController extends GetxController{
           acheived = dashBoardData.data?.stats?.acheived ?? "";
           double onePercentage = (target/100);
           achivePrecentage = (double.parse(acheived)) / onePercentage;
+          clockInTime = dashBoardData.data?.attendance?.inTime ?? "";
+          clockOutTime = dashBoardData.data?.attendance?.outTime ?? "";
+          if(clockOutTime.isNotEmpty) {
+            DateTime inTime =
+                DateTime.parse(DateTime.now().toString() + clockInTime);
+            DateTime outTime =
+                DateTime.parse(DateTime.now().toString() + clockOutTime);
+            Duration difference = outTime.difference(inTime);
+
+            /// Extract hours, minutes, and seconds
+            int hours = difference.inHours;
+            int minutes = difference.inMinutes % 60;
+            int seconds = difference.inSeconds % 60;
+            workingHr = "$hours:$minutes:$seconds";
+          }
           printApiResponse(url: url.toString(), response: response.body, statusCode: response.statusCode.toString());
         }
       } else {
@@ -115,12 +132,11 @@ class DashBoardScreenController extends GetxController{
     /// Method use to clock IN and OUT.
   clockINOut(BuildContext context) async {
     isLoading(true);
-    isMark = !isMark;
     inTime = getCurrentTime();
     Uri url = Uri.parse("${Apis.baseUrl}${Apis.markAttendanceUrl}${GetSfLocalStorage.getAuthToken()}");
     var request = http.MultipartRequest('POST', url);
 
-    request.fields['type'] = !isMark ? "OUT" : "IN";
+    request.fields['type'] = clockInTime.isNotEmpty ? "OUT" : "IN";
     request.fields['time'] = inTime;
     request.fields['latitude'] = latitude;
     request.fields['longitude'] = longitude;

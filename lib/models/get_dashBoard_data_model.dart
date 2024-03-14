@@ -33,9 +33,17 @@ class Data {
 }
 
 class Attendance {
-  Attendance();
+  final String? inTime;
+  final String? outTime;
+
+  Attendance({
+    this.inTime,
+    this.outTime,
+  });
 
   factory Attendance.fromJson(Map<String, dynamic> json) => Attendance(
+    inTime: json["in_time"],
+    outTime: json["out_time"],
   );
 }
 

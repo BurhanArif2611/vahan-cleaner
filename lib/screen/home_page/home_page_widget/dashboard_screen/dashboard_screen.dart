@@ -1,6 +1,4 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 import 'package:percent_indicator/circular_percent_indicator.dart';
 import 'package:vahan_cleaner/screen/home_page/home_page_widget/dashboard_screen/dashboard_screen_controller.dart';
@@ -17,7 +15,6 @@ class DashBoardScreen extends StatefulWidget {
 }
 
 class _DashBoardScreenState extends State<DashBoardScreen> {
-
   DashBoardScreenController dashBoardScreenController = Get.put(DashBoardScreenController());
 
   @override
@@ -246,7 +243,9 @@ class _DashBoardScreenState extends State<DashBoardScreen> {
                         children: [
                           GestureDetector(
                             onTap: () {
-                              controller.clockINOut(context);
+                              controller.workingHr.isNotEmpty && controller.clockOutTime.isNotEmpty
+                              ? {}
+                              : controller.clockINOut(context);
                             },
                             child: Container(
                               width: MediaQuery.of(context).size.width * 0.4,
@@ -256,7 +255,10 @@ class _DashBoardScreenState extends State<DashBoardScreen> {
                                 gradient: LinearGradient(
                                   begin: Alignment.topRight,
                                   end: Alignment.bottomLeft,
-                                  colors: !controller.isMark
+                                  colors: controller.workingHr.isNotEmpty
+                                      ? [AppColor.neutral_400.withOpacity(0.5),
+                                         AppColor.neutral_500]
+                                      : controller.clockInTime.isEmpty
                                       ? [AppColor.green_400.withOpacity(0.5),
                                          AppColor.green_500]
                                       : [AppColor.red_400.withOpacity(0.5),
@@ -271,21 +273,32 @@ class _DashBoardScreenState extends State<DashBoardScreen> {
                                   ),
                                 ],
                               ),
-                              child: Center(
-                                child: Text(!controller.isMark ? "CLOCK IN" : "CLOCK OUT",
-                                style: TextStyle(
-                                  color: AppColor.neutral_100,
-                                  fontFamily: FontFamily.fontFamily,
-                                  fontSize: 20,
-                                  fontWeight: FontWeight.w500
-                                ),
-                                ),
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Image.asset("Assets/Images/click.png",
+                                    height: 70,
+                                    width: 60,
+                                    color: AppColor.neutral_100,
+                                    errorBuilder: (context, error, stackTrace) {
+                                      return const Center(child: Icon(Icons.error_outline, color: AppColor.red, size: 25));
+                                    },
+                                  ),
+                                  Text(controller.workingHr.isNotEmpty ? "CLOCK" : controller.clockInTime.isEmpty ?"CLOCK IN" : "CLOCK OUT",
+                                  style: TextStyle(
+                                    color: AppColor.neutral_100,
+                                    fontFamily: FontFamily.fontFamily,
+                                    fontSize: 18,
+                                    fontWeight: FontWeight.w500
+                                  ),
+                                  ),
+                                ],
                               ),
                             ),
                           ),
                         ],
                       ),
-                      const SizedBox(height: 15),
+                      const SizedBox(height: 20),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
@@ -304,16 +317,20 @@ class _DashBoardScreenState extends State<DashBoardScreen> {
                             ),
                             child: Column(
                               children: [
-                                Text("In time",
+                                Image.asset("Assets/Images/clockIn.png",
+                                  height: 35,
+                                  width: 35,
+                                ),
+                                Text(controller.clockInTime.isNotEmpty ? controller.clockInTime : "__:__:__",
                                   style: TextStyle(
-                                      fontSize: 15,
+                                      fontSize: 16,
                                       fontWeight: FontWeight.w700,
                                       fontFamily: FontFamily.fontFamily),
                                 ),
-                                Text("__:__",
+                                Text("Clock In",
                                   style: TextStyle(
-                                      fontSize: 15,
-                                      fontWeight: FontWeight.w700,
+                                      fontSize: 12,
+                                      fontWeight: FontWeight.w500,
                                       fontFamily: FontFamily.fontFamily),
                                 ),
                               ],
@@ -334,16 +351,20 @@ class _DashBoardScreenState extends State<DashBoardScreen> {
                             ),
                             child: Column(
                               children: [
-                                Text("Out time",
+                                Image.asset("Assets/Images/clockOut.png",
+                                  height: 35,
+                                  width: 35,
+                                ),
+                                Text(controller.clockOutTime.isNotEmpty ? controller.clockOutTime : "__:__:__",
                                   style: TextStyle(
-                                      fontSize: 15,
+                                      fontSize: 16,
                                       fontWeight: FontWeight.w700,
                                       fontFamily: FontFamily.fontFamily),
                                 ),
-                                Text("__:__",
+                                Text("Clock Out",
                                   style: TextStyle(
-                                      fontSize: 15,
-                                      fontWeight: FontWeight.w700,
+                                      fontSize: 12,
+                                      fontWeight: FontWeight.w500,
                                       fontFamily: FontFamily.fontFamily),
                                 ),
                               ],
@@ -364,18 +385,32 @@ class _DashBoardScreenState extends State<DashBoardScreen> {
                             ),
                             child: Column(
                               children: [
+                                SizedBox(
+                                  height: 35,
+                                  width: 35,
+                                  child: Column(
+                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    children: [
+                                      Image.asset("Assets/Images/clockPause.png",
+                                        height: 28,
+                                        width: 28,
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                                Text(controller.workingHr.isNotEmpty ? controller.workingHr : "__:__:__",
+                                  style: TextStyle(
+                                      fontSize: 15,
+                                      fontWeight: FontWeight.w700,
+                                      fontFamily: FontFamily.fontFamily),
+                                ),
                                 Text("Working Hours",
                                   style: TextStyle(
-                                      fontSize: 15,
-                                      fontWeight: FontWeight.w700,
+                                      fontSize: 12,
+                                      fontWeight: FontWeight.w500,
                                       fontFamily: FontFamily.fontFamily),
                                 ),
-                                Text("__:__",
-                                  style: TextStyle(
-                                      fontSize: 15,
-                                      fontWeight: FontWeight.w700,
-                                      fontFamily: FontFamily.fontFamily),
-                                ),
+
                               ],
                             ),
                           ),
