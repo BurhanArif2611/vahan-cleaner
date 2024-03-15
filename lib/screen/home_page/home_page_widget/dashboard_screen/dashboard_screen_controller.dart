@@ -103,17 +103,21 @@ class DashBoardScreenController extends GetxController{
           clockInTime = dashBoardData.data?.attendance?.inTime ?? "";
           clockOutTime = dashBoardData.data?.attendance?.outTime ?? "";
           if(clockOutTime.isNotEmpty) {
-            DateTime inTime =
-                DateTime.parse(DateTime.now().toString() + clockInTime);
-            DateTime outTime =
-                DateTime.parse(DateTime.now().toString() + clockOutTime);
-            Duration difference = outTime.difference(inTime);
+            try {
+              DateFormat format = DateFormat("HH:mm:ss");
+              DateTime inTime = format.parse(clockInTime);
+              DateTime outTime = format.parse(clockOutTime);
+              Duration difference = outTime.difference(inTime);
 
-            /// Extract hours, minutes, and seconds
-            int hours = difference.inHours;
-            int minutes = difference.inMinutes % 60;
-            int seconds = difference.inSeconds % 60;
-            workingHr = "$hours:$minutes:$seconds";
+              /// Extract hours, minutes, and seconds
+              int hours = difference.inHours;
+              int minutes = difference.inMinutes % 60;
+              int seconds = difference.inSeconds % 60;
+              workingHr = "$hours:$minutes:$seconds";
+              printWorkingHr(workingHr: workingHr);
+            } catch (e) {
+              printDifferenceCatchError(error: e.toString());
+            }
           }
           printApiResponse(url: url.toString(), response: response.body, statusCode: response.statusCode.toString());
         }
@@ -136,7 +140,7 @@ class DashBoardScreenController extends GetxController{
     Uri url = Uri.parse("${Apis.baseUrl}${Apis.markAttendanceUrl}${GetSfLocalStorage.getAuthToken()}");
     var request = http.MultipartRequest('POST', url);
 
-    request.fields['type'] = clockInTime.isNotEmpty ? "OUT" : "IN";
+    request.fields['type'] = clockInTime.isNotEmpty ? "out" : "in";
     request.fields['time'] = inTime;
     request.fields['latitude'] = latitude;
     request.fields['longitude'] = longitude;
@@ -151,6 +155,7 @@ class DashBoardScreenController extends GetxController{
           printApiResponse(url: (url.toString()), statusCode: response.statusCode.toString(), response: responseBody.body );
           // ignore: use_build_context_synchronously
           setSnackBar(markAttendanceData.message ?? "", context, markAttendanceData.status ?? false);
+          getDashBoardData();
         } else {
           printApiResponse(url: (url.toString()), statusCode: response.statusCode.toString(), response: responseBody.body );
           // ignore: use_build_context_synchronously
@@ -164,7 +169,7 @@ class DashBoardScreenController extends GetxController{
     } catch (e) {
       printCatchError(url: (url.toString()), error: e.toString());
     }
-    isLoading(false);
+    //isLoading(false);
     update([GetXControllerBuilders.dashBoardScreenController]);
   }
 }

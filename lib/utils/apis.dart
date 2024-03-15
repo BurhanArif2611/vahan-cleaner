@@ -18,6 +18,14 @@ printCatchError({required String url, required String error}) {
   print("Catch Error ==> $error");
 }
 
+printDifferenceCatchError({required String error}) {
+  print("Catch Error ==> $error");
+}
+
+printWorkingHr({required String workingHr}) {
+  print("Working Hr's ==> $workingHr");
+}
+
 printApiBody({required String body}) {
   print("Api body ==> $body");
 }

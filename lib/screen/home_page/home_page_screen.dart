@@ -4,6 +4,7 @@ import '../../app_routes/app_routes.dart';
 import '../../get_controller_builder.dart';
 import '../../models/view_pending_subscription_response.dart';
 import '../../utils/colors.dart';
+import '../../utils/colors.dart';
 import '../../utils/font_family.dart';
 import '../../utils/snackbar.dart';
 import '../../widget/common_app_bar.dart';
@@ -82,7 +83,7 @@ class _HomeScreenState extends State<HomeScreen> {
             unselectedLabelStyle: const TextStyle(
               color: AppColor.neutral_500,
             ),
-            selectedItemColor:  AppColor.primary,
+            selectedItemColor:  buttoncolor,
             unselectedItemColor:  AppColor.neutral_500,
             backgroundColor: AppColor.orange_300,
             onTap: (index) {
