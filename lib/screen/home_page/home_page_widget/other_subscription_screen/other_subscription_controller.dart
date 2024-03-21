@@ -53,6 +53,7 @@ class OtherSubscriptionController extends GetxController {
   Future<void> getOthersVahanData() async {
     isLoading(true);
     String formattedDate = DateFormat('yyyy-MM-dd').format(now);
+    filterOthersVahans.clear();
     try {
       final response = await http.get(Uri.parse("${Apis.baseUrl}${Apis.getOtherCleanerUrl}${GetSfLocalStorage.getAuthToken()}&date=$formattedDate"));
       OtherSubscriptionModel otherVahanData = otherSubscriptionModelFromJson(response.body);

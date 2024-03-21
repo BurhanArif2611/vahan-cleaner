@@ -55,6 +55,7 @@ class PendingSubscriptionController extends GetxController {
   Future<void> getPendingVahanData() async {
     isLoading(true);
     String formattedDate = DateFormat('yyyy-MM-dd').format(now);
+    filteredList.clear();
     try {
       final response = await http.get(Uri.parse("${Apis.baseUrl}${Apis.getPendingCleanerUrl}${GetSfLocalStorage.getAuthToken()}&date=$formattedDate"));
       ViewPendingSubscriptionResponse vahansLIst = viewSubscriptionResponseFromJson(response.body);

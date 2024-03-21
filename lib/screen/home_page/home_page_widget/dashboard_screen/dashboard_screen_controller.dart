@@ -25,11 +25,13 @@ class DashBoardScreenController extends GetxController{
   int thismonthEarning = 0;
   int target = 0;
   double achivePrecentage = 0.0;
+  String userName = "";
 
   /// Initial method.
   @override
   onInit() async {
     super.onInit();
+    userName = GetSfLocalStorage.getCleanerName();
     sendLocation();
     getDashBoardData();
   }

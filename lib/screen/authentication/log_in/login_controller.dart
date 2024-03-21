@@ -42,6 +42,7 @@ class LoginController extends GetxController {
           // ignore: use_build_context_synchronously
           setSnackBar(loginResponse.message ?? "", context, loginResponse.status ?? false);
           GetSfLocalStorage.setAuthToken(loginResponse.cleanerdata?.token ?? "");
+          GetSfLocalStorage.setCleanerName(loginResponse.cleanerdata?.name ?? "");
           Get.offAllNamed(AppRoutes.homePage);
         } else {
           printApiResponse(url: (Uri.parse(Apis.baseUrl + Apis.loginWithPasswordUrl).toString()), statusCode: response.statusCode.toString(), response: responseBody.body );

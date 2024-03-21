@@ -36,7 +36,17 @@ class _DashBoardScreenState extends State<DashBoardScreen> {
                   Padding(
                     padding: const EdgeInsets.all(20.0),
                     child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
+                        Text("Welcome Back, ${controller.userName}",
+                          style: TextStyle(
+                              color: AppColor.neutral_700,
+                              fontFamily: FontFamily.fontFamily,
+                              fontSize: 20,
+                              fontWeight: FontWeight.w500
+                          ),
+                        ),
+                        const SizedBox(height: 10),
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
@@ -221,26 +231,31 @@ class _DashBoardScreenState extends State<DashBoardScreen> {
                           ),
                         ),
                         const SizedBox(height: 10),
-                        CircularPercentIndicator(
-                          radius: 65.0,
-                          lineWidth: 10.0,
-                          animation: true,
-                          percent: (controller.achivePrecentage/100),
-                          center: Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Text(
-                                "${controller.achivePrecentage.toStringAsFixed(2)} %",
-                                style: const TextStyle(fontWeight: FontWeight.w500, fontSize: 20.0),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            CircularPercentIndicator(
+                              radius: 65.0,
+                              lineWidth: 10.0,
+                              animation: true,
+                              percent: (controller.achivePrecentage/100),
+                              center: Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Text(
+                                    "${controller.achivePrecentage.toStringAsFixed(2)} %",
+                                    style: const TextStyle(fontWeight: FontWeight.w500, fontSize: 20.0),
+                                  ),
+                                  Text(
+                                    "${controller.acheived} / ${controller.target}",
+                                    style: const TextStyle(fontWeight: FontWeight.w400, fontSize: 13.0),
+                                  ),
+                                ],
                               ),
-                              Text(
-                                "${controller.acheived} / ${controller.target}",
-                                style: const TextStyle(fontWeight: FontWeight.w400, fontSize: 13.0),
-                              ),
-                            ],
-                          ),
-                          circularStrokeCap: CircularStrokeCap.round,
-                          progressColor: primaryColor,
+                              circularStrokeCap: CircularStrokeCap.round,
+                              progressColor: primaryColor,
+                            ),
+                          ],
                         ),
                         const SizedBox(height: 10),
                         Row(
