@@ -8,7 +8,8 @@ import '../utils/snackbar.dart';
 
 class CustomAppBar extends StatefulWidget {
   bool isBack;
-  CustomAppBar({required this.isBack, Key? key}) : super(key: key);
+  bool isCalender;
+  CustomAppBar({required this.isBack, required this.isCalender, Key? key}) : super(key: key);
 
   @override
   State<CustomAppBar> createState() => _CustomAppBarState();
@@ -53,6 +54,27 @@ class _CustomAppBarState extends State<CustomAppBar> {
             )
           : null,
       actions: [
+        GestureDetector(
+          onTap: () {
+            widget.isCalender
+                ? Get.toNamed(AppRoutes.getAttendance)
+                : null;
+          },
+          child: Container(
+            height: 40,
+            width: 40,
+            margin: const EdgeInsets.only(right: 16, top: 16),
+            decoration: BoxDecoration(
+              color: AppColor.neutral_100,
+              borderRadius: BorderRadius.circular(8),
+            ),
+            child: const Center(
+                child: Icon(
+                  Icons.calendar_month_outlined,
+                  color: AppColor.neutral_700,
+                )),
+          ),
+        ),
         GestureDetector(
           onTap: () {
             showDialog(

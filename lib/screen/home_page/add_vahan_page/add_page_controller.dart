@@ -16,7 +16,7 @@ import 'package:flutter_image_compress/flutter_image_compress.dart';
 
 class AddPageController extends GetxController {
 
-  CarModeValue? selectedOption = CarModeValue.External;
+  CarModeValue? selectedOption;
   var isLoading = false.obs;
   DateTime now = DateTime.now();
   var args = Get.arguments;
@@ -24,11 +24,19 @@ class AddPageController extends GetxController {
   var vahans;
   String? imageBaseUrl;
   File? pickedImage;
+  String serviceType = "";
 
   @override
   void onInit() {
     vahans = args["vahanData"];
     imageBaseUrl = args['baseUrl'];
+    serviceType = vahans.mode ?? "";
+    if(serviceType.toLowerCase() != "out") {
+      selectedOption = CarModeValue.External;
+    } else {
+      selectedOption = CarModeValue.Internal;
+    }
+    printDoneService(serviceType: serviceType);
     super.onInit();
   }
 
@@ -79,7 +87,7 @@ class AddPageController extends GetxController {
     String formattedDate = DateFormat('yyyy-MM-dd').format(now);
 
     request.fields['date'] = formattedDate;
-    request.fields['mode'] = selectedOption == CarModeValue.Internal ? "in" : "out";
+    request.fields['mode'] = selectedOption == CarModeValue.Internal ? "in" : selectedOption == CarModeValue.External ? "out" : "na";
     request.fields['subscription_id'] = vahans?.subscriptionId ?? "";
     request.files.add(http.MultipartFile('image', pickedImage!.readAsBytes().asStream(), pickedImage!.lengthSync(), filename: 'image.jpg'));
     printApiBody(body: request.fields.toString());

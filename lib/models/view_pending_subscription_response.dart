@@ -76,6 +76,7 @@ class Vahan {
   final String? image;
   final String? readyTime;
   final String? points;
+  final String mode = "";
 
   Vahan({
     this.subscriptionId,

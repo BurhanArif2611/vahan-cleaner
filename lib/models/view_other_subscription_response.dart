@@ -63,6 +63,8 @@ class OthersVahan {
   final String? readyTime;
   final String? flatInfo;
   final String? points;
+  final String? cleaner_name;
+  final String mode = "";
 
   OthersVahan({
     this.subscriptionId,
@@ -75,6 +77,7 @@ class OthersVahan {
     this.readyTime,
     this.flatInfo,
     this.points,
+    this.cleaner_name,
   });
 
   factory OthersVahan.fromJson(Map<String, dynamic> json) => OthersVahan(
@@ -88,6 +91,7 @@ class OthersVahan {
     readyTime: json["ready_time"],
     flatInfo: json["flat_info"],
     points: json["points"],
+    cleaner_name: json["cleaner_name"],
   );
 
   Map<String, dynamic> toJson() => {
@@ -101,5 +105,6 @@ class OthersVahan {
     "ready_time": readyTime,
     "flat_info": flatInfo,
     "points": points,
+    "cleaner_name": cleaner_name,
   };
 }

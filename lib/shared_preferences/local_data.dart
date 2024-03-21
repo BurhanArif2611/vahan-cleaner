@@ -65,6 +65,16 @@ class GetSfLocalStorage {
     return box.read(GetXStorageConstants.authToken) ?? "";
   }
 
+  /// to save clockOut time.
+  static void setClockOutTime(String clocKOutTime) {
+    box.write(GetXStorageConstants.clockOut, clocKOutTime);
+  }
+
+  /// to get last logged time.
+  static String getClockOutTime() {
+    return box.read(GetXStorageConstants.clockOut) ?? "";
+  }
+
   /// for clearing all data
   static void clear() {
     box.erase();
@@ -73,6 +83,7 @@ class GetSfLocalStorage {
 
 class GetXStorageConstants {
   static const authToken = "Authorization";
+  static const clockOut = "clockOut";
   static const login = "login";
   static const rememberMe = "rememberMe";
   static const isBioMetric = "isBioMetric";

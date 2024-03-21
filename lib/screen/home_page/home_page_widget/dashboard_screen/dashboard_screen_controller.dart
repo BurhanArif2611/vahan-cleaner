@@ -102,6 +102,8 @@ class DashBoardScreenController extends GetxController{
           achivePrecentage = (double.parse(acheived)) / onePercentage;
           clockInTime = dashBoardData.data?.attendance?.inTime ?? "";
           clockOutTime = dashBoardData.data?.attendance?.outTime ?? "";
+          GetSfLocalStorage.setClockOutTime(clockOutTime);
+
           if(clockOutTime.isNotEmpty) {
             try {
               DateFormat format = DateFormat("HH:mm:ss");

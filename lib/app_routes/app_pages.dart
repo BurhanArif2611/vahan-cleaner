@@ -1,6 +1,7 @@
 import 'package:get/get.dart';
 import '../screen/authentication/log_in/login_screen.dart';
 import '../screen/home_page/add_vahan_page/add_vahan_page.dart';
+import '../screen/home_page/get_attendance_page/get_attendance_page.dart';
 import '../screen/home_page/home_page_screen.dart';
 import 'app_routes.dart';
 
@@ -29,7 +30,14 @@ class AppPages {
         transition: transition,
         popGesture: false,
         name: AppRoutes.addVahan,
-        page: () => AddVehicleScreen(),
+        page: () => const AddVehicleScreen(),
+      ),
+      GetPage(
+        transitionDuration: duration,
+        transition: transition,
+        popGesture: false,
+        name: AppRoutes.getAttendance,
+        page: () => const GetAttendanceScreen(),
       ),
     ];
     return pages;

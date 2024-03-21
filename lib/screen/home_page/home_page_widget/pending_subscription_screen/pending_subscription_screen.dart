@@ -4,6 +4,7 @@ import 'package:vahan_cleaner/utils/loading.dart';
 import '../../../../app_routes/app_routes.dart';
 import '../../../../get_controller_builder.dart';
 import '../../../../models/view_pending_subscription_response.dart';
+import '../../../../shared_preferences/local_data.dart';
 import '../../../../utils/colors.dart';
 import '../../../../utils/font_family.dart';
 import 'pending_subscription_controller.dart';
@@ -12,11 +13,13 @@ class PendingSubscriptionScreen extends StatefulWidget {
   const PendingSubscriptionScreen({super.key});
 
   @override
-  State<PendingSubscriptionScreen> createState() => _PendingSubscriptionScreenState();
+  State<PendingSubscriptionScreen> createState() =>
+      _PendingSubscriptionScreenState();
 }
 
 class _PendingSubscriptionScreenState extends State<PendingSubscriptionScreen> {
-  PendingSubscriptionController homePageController = Get.put(PendingSubscriptionController());
+  PendingSubscriptionController homePageController =
+      Get.put(PendingSubscriptionController());
 
   @override
   Widget build(BuildContext context) {
@@ -37,14 +40,18 @@ class _PendingSubscriptionScreenState extends State<PendingSubscriptionScreen> {
                           controller: controller.searchController,
                           onChanged: (value) {
                             if (controller.searchController.text.isEmpty) {
-                              controller.filteredList = controller.pendingVahans ?? [];
-                              controller.update([GetXControllerBuilders.pendingScreenController]);
+                              controller.filteredList =
+                                  controller.pendingVahans ?? [];
+                              controller.update([
+                                GetXControllerBuilders.pendingScreenController
+                              ]);
                             } else {
                               controller.filterList(value);
                             }
                           },
                           decoration: InputDecoration(
-                            labelText: 'Search',
+                            labelText:
+                                'Search among ${controller.pendingVahans?.length ?? 0} vehicles',
                             contentPadding: EdgeInsets.zero,
                             prefixIcon: const Icon(Icons.search),
                             border: OutlineInputBorder(
@@ -65,7 +72,7 @@ class _PendingSubscriptionScreenState extends State<PendingSubscriptionScreen> {
                                   borderRadius: BorderRadius.circular(8),
                                   color: AppColor.neutral_100,
                                   border:
-                                  Border.all(color: AppColor.orange_100),
+                                      Border.all(color: AppColor.orange_100),
                                   boxShadow: [
                                     BoxShadow(
                                         color: AppColor.neutral_300
@@ -86,7 +93,7 @@ class _PendingSubscriptionScreenState extends State<PendingSubscriptionScreen> {
                                     ),
                                     Row(
                                       mainAxisAlignment:
-                                      MainAxisAlignment.center,
+                                          MainAxisAlignment.center,
                                       children: [
                                         SizedBox(
                                           width: 22,
@@ -125,7 +132,7 @@ class _PendingSubscriptionScreenState extends State<PendingSubscriptionScreen> {
                                   borderRadius: BorderRadius.circular(8),
                                   color: AppColor.neutral_100,
                                   border:
-                                  Border.all(color: AppColor.orange_100),
+                                      Border.all(color: AppColor.orange_100),
                                   boxShadow: [
                                     BoxShadow(
                                         color: AppColor.neutral_300
@@ -146,7 +153,7 @@ class _PendingSubscriptionScreenState extends State<PendingSubscriptionScreen> {
                                     ),
                                     Row(
                                       mainAxisAlignment:
-                                      MainAxisAlignment.center,
+                                          MainAxisAlignment.center,
                                       children: [
                                         SizedBox(
                                           width: 22,
@@ -187,10 +194,12 @@ class _PendingSubscriptionScreenState extends State<PendingSubscriptionScreen> {
                               Vahan? vahanData = controller.filteredList[index];
                               return GestureDetector(
                                 onTap: () {
-                                  Get.toNamed(AppRoutes.addVahan, arguments: {
-                                    "vahanData": vahanData,
-                                    "baseUrl": controller.imageBaseUrl
-                                  });
+                                  if (GetSfLocalStorage.getClockOutTime().isEmpty) {
+                                    Get.toNamed(AppRoutes.addVahan, arguments: {
+                                      "vahanData": vahanData,
+                                      "baseUrl": controller.imageBaseUrl
+                                    });
+                                  }
                                 },
                                 child: Container(
                                   padding: const EdgeInsets.symmetric(
@@ -220,7 +229,7 @@ class _PendingSubscriptionScreenState extends State<PendingSubscriptionScreen> {
                                             CrossAxisAlignment.start,
                                         children: [
                                           Text(
-                                            vahanData?.regNumber ?? "",
+                                            vahanData.regNumber ?? "",
                                             style: TextStyle(
                                                 fontSize: 20,
                                                 fontWeight: FontWeight.bold,
@@ -228,7 +237,7 @@ class _PendingSubscriptionScreenState extends State<PendingSubscriptionScreen> {
                                                     FontFamily.fontFamily),
                                           ),
                                           Text(
-                                            " ${vahanData?.brand ?? ""} ${vahanData?.model ?? ""}",
+                                            " ${vahanData.brand ?? ""} ${vahanData.model ?? ""}",
                                             style: TextStyle(
                                                 fontFamily:
                                                     FontFamily.fontFamily,
@@ -243,7 +252,7 @@ class _PendingSubscriptionScreenState extends State<PendingSubscriptionScreen> {
                                               SizedBox(
                                                 width: 198,
                                                 child: Text(
-                                                  " ${vahanData?.name ?? ""} (${vahanData?.flat_info ?? ""})",
+                                                  " ${vahanData.name ?? ""} (${vahanData.flat_info ?? ""})",
                                                   style: TextStyle(
                                                       fontFamily:
                                                           FontFamily.fontFamily,
@@ -271,7 +280,7 @@ class _PendingSubscriptionScreenState extends State<PendingSubscriptionScreen> {
                                                   color: AppColor.neutral_500,
                                                   size: 14),
                                               Text(
-                                                " ${vahanData?.readyTime}",
+                                                " ${vahanData.readyTime}",
                                                 style: TextStyle(
                                                     fontSize: 12,
                                                     fontWeight: FontWeight.bold,
@@ -290,7 +299,7 @@ class _PendingSubscriptionScreenState extends State<PendingSubscriptionScreen> {
                                                   color: AppColor.neutral_500,
                                                   size: 14),
                                               Text(
-                                                (vahanData?.parkingLocation ??
+                                                (vahanData.parkingLocation ??
                                                     ""),
                                                 style: TextStyle(
                                                     fontSize: 12,
@@ -301,7 +310,7 @@ class _PendingSubscriptionScreenState extends State<PendingSubscriptionScreen> {
                                             ],
                                           ),
                                           Text(
-                                            "+${vahanData?.points} coins",
+                                            "+${vahanData.points} coins",
                                             style: TextStyle(
                                                 fontSize: 12,
                                                 fontWeight: FontWeight.bold,
@@ -319,11 +328,11 @@ class _PendingSubscriptionScreenState extends State<PendingSubscriptionScreen> {
                     ),
                   ),
                 ),
-                Obx(() => Utility.loaderWidget(homePageController.isLoading.value)),
+                Obx(() =>
+                    Utility.loaderWidget(homePageController.isLoading.value)),
               ],
             ),
           );
         });
   }
 }
-

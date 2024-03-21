@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import '../../../../app_routes/app_routes.dart';
 import '../../../../get_controller_builder.dart';
 import '../../../../models/view_other_subscription_response.dart';
+import '../../../../shared_preferences/local_data.dart';
 import '../../../../utils/colors.dart';
 import '../../../../utils/font_family.dart';
 import '../../../../utils/loading.dart';
@@ -12,11 +13,13 @@ class OtherSubscriptionScreen extends StatefulWidget {
   const OtherSubscriptionScreen({super.key});
 
   @override
-  State<OtherSubscriptionScreen> createState() => _OtherSubscriptionScreenState();
+  State<OtherSubscriptionScreen> createState() =>
+      _OtherSubscriptionScreenState();
 }
 
 class _OtherSubscriptionScreenState extends State<OtherSubscriptionScreen> {
-  OtherSubscriptionController otherScreenController = Get.put(OtherSubscriptionController());
+  OtherSubscriptionController otherScreenController =
+      Get.put(OtherSubscriptionController());
 
   @override
   Widget build(BuildContext context) {
@@ -37,14 +40,18 @@ class _OtherSubscriptionScreenState extends State<OtherSubscriptionScreen> {
                           controller: controller.searchController,
                           onChanged: (value) {
                             if (controller.searchController.text.isEmpty) {
-                              controller.filterOthersVahans = controller.othersVahans ?? [];
-                              controller.update([GetXControllerBuilders.otherScreenController]);
+                              controller.filterOthersVahans =
+                                  controller.othersVahans ?? [];
+                              controller.update([
+                                GetXControllerBuilders.otherScreenController
+                              ]);
                             } else {
                               controller.filterList(value);
                             }
                           },
                           decoration: InputDecoration(
-                            labelText: 'Search',
+                            labelText:
+                                'Search among ${controller.othersVahans?.length ?? 0} vehicles',
                             contentPadding: EdgeInsets.zero,
                             prefixIcon: const Icon(Icons.search),
                             border: OutlineInputBorder(
@@ -58,15 +65,18 @@ class _OtherSubscriptionScreenState extends State<OtherSubscriptionScreen> {
                           children: [
                             Container(
                               width: MediaQuery.of(context).size.width * 0.40,
-                              padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
+                              padding: const EdgeInsets.symmetric(
+                                  horizontal: 15, vertical: 10),
                               margin: const EdgeInsets.only(bottom: 10),
                               decoration: BoxDecoration(
                                   borderRadius: BorderRadius.circular(8),
                                   color: AppColor.neutral_100,
-                                  border: Border.all(color: AppColor.orange_100),
+                                  border:
+                                      Border.all(color: AppColor.orange_100),
                                   boxShadow: [
                                     BoxShadow(
-                                        color: AppColor.neutral_300.withOpacity(0.6),
+                                        color: AppColor.neutral_300
+                                            .withOpacity(0.6),
                                         offset: const Offset(0, 3),
                                         spreadRadius: 4,
                                         blurRadius: 4)
@@ -79,21 +89,29 @@ class _OtherSubscriptionScreenState extends State<OtherSubscriptionScreen> {
                                       style: TextStyle(
                                           fontSize: 15,
                                           fontWeight: FontWeight.bold,
-                                          fontFamily:
-                                          FontFamily.fontFamily),
+                                          fontFamily: FontFamily.fontFamily),
                                     ),
                                     Row(
-                                      mainAxisAlignment: MainAxisAlignment.center,
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
                                       children: [
                                         SizedBox(
                                           width: 22,
                                           height: 22,
-                                          child: Image.asset("Assets/Images/coin.png", errorBuilder: (context, error, stackTrace) {
-                                            return const Icon(Icons.error_outline_outlined, size: 10, color: AppColor.red);
-                                          },),
+                                          child: Image.asset(
+                                            "Assets/Images/coin.png",
+                                            errorBuilder:
+                                                (context, error, stackTrace) {
+                                              return const Icon(
+                                                  Icons.error_outline_outlined,
+                                                  size: 10,
+                                                  color: AppColor.red);
+                                            },
+                                          ),
                                         ),
                                         const SizedBox(width: 5),
-                                        Text(controller.balance.toString(),
+                                        Text(
+                                          controller.balance.toString(),
                                           style: TextStyle(
                                               fontFamily: FontFamily.fontFamily,
                                               fontWeight: FontWeight.w500,
@@ -107,15 +125,18 @@ class _OtherSubscriptionScreenState extends State<OtherSubscriptionScreen> {
                             ),
                             Container(
                               width: MediaQuery.of(context).size.width * 0.45,
-                              padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
+                              padding: const EdgeInsets.symmetric(
+                                  horizontal: 15, vertical: 10),
                               margin: const EdgeInsets.only(bottom: 10),
                               decoration: BoxDecoration(
                                   borderRadius: BorderRadius.circular(8),
                                   color: AppColor.neutral_100,
-                                  border: Border.all(color: AppColor.orange_100),
+                                  border:
+                                      Border.all(color: AppColor.orange_100),
                                   boxShadow: [
                                     BoxShadow(
-                                        color: AppColor.neutral_300.withOpacity(0.6),
+                                        color: AppColor.neutral_300
+                                            .withOpacity(0.6),
                                         offset: const Offset(0, 3),
                                         spreadRadius: 4,
                                         blurRadius: 4)
@@ -128,21 +149,29 @@ class _OtherSubscriptionScreenState extends State<OtherSubscriptionScreen> {
                                       style: TextStyle(
                                           fontSize: 15,
                                           fontWeight: FontWeight.bold,
-                                          fontFamily:
-                                          FontFamily.fontFamily),
+                                          fontFamily: FontFamily.fontFamily),
                                     ),
                                     Row(
-                                      mainAxisAlignment: MainAxisAlignment.center,
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
                                       children: [
                                         SizedBox(
                                           width: 22,
                                           height: 22,
-                                          child: Image.asset("Assets/Images/coin.png", errorBuilder: (context, error, stackTrace) {
-                                            return const Icon(Icons.error_outline_outlined, size: 10, color: AppColor.red);
-                                          },),
+                                          child: Image.asset(
+                                            "Assets/Images/coin.png",
+                                            errorBuilder:
+                                                (context, error, stackTrace) {
+                                              return const Icon(
+                                                  Icons.error_outline_outlined,
+                                                  size: 10,
+                                                  color: AppColor.red);
+                                            },
+                                          ),
                                         ),
                                         const SizedBox(width: 5),
-                                        Text(controller.todaysEarning.toString(),
+                                        Text(
+                                          controller.todaysEarning.toString(),
                                           style: TextStyle(
                                               fontFamily: FontFamily.fontFamily,
                                               fontWeight: FontWeight.w500,
@@ -162,13 +191,16 @@ class _OtherSubscriptionScreenState extends State<OtherSubscriptionScreen> {
                             physics: const NeverScrollableScrollPhysics(),
                             shrinkWrap: true,
                             itemBuilder: (context, index) {
-                              OthersVahan? otherVahanData = controller.filterOthersVahans[index];
+                              OthersVahan? otherVahanData =
+                                  controller.filterOthersVahans[index];
                               return GestureDetector(
                                 onTap: () {
-                                  Get.toNamed(AppRoutes.addVahan, arguments: {
-                                    "vahanData": otherVahanData,
-                                    "baseUrl": controller.imageBaseUrl
-                                  });
+                                  if (GetSfLocalStorage.getClockOutTime().isEmpty) {
+                                    Get.toNamed(AppRoutes.addVahan, arguments: {
+                                      "vahanData": otherVahanData,
+                                      "baseUrl": controller.imageBaseUrl
+                                    });
+                                  }
                                 },
                                 child: Container(
                                   padding: const EdgeInsets.symmetric(
@@ -189,13 +221,13 @@ class _OtherSubscriptionScreenState extends State<OtherSubscriptionScreen> {
                                       ]),
                                   child: Row(
                                     mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
+                                        MainAxisAlignment.spaceBetween,
                                     crossAxisAlignment:
-                                    CrossAxisAlignment.center,
+                                        CrossAxisAlignment.center,
                                     children: [
                                       Column(
                                         crossAxisAlignment:
-                                        CrossAxisAlignment.start,
+                                            CrossAxisAlignment.start,
                                         children: [
                                           Text(
                                             otherVahanData.regNumber ?? "",
@@ -203,13 +235,13 @@ class _OtherSubscriptionScreenState extends State<OtherSubscriptionScreen> {
                                                 fontSize: 20,
                                                 fontWeight: FontWeight.bold,
                                                 fontFamily:
-                                                FontFamily.fontFamily),
+                                                    FontFamily.fontFamily),
                                           ),
                                           Text(
                                             " ${otherVahanData.brand ?? ""} ${otherVahanData.model ?? ""}",
                                             style: TextStyle(
                                                 fontFamily:
-                                                FontFamily.fontFamily,
+                                                    FontFamily.fontFamily,
                                                 fontWeight: FontWeight.w500,
                                                 fontSize: 15),
                                           ),
@@ -224,9 +256,30 @@ class _OtherSubscriptionScreenState extends State<OtherSubscriptionScreen> {
                                                   " ${otherVahanData.name ?? ""} (${otherVahanData.flatInfo ?? ""})",
                                                   style: TextStyle(
                                                       fontFamily:
-                                                      FontFamily.fontFamily,
+                                                          FontFamily.fontFamily,
                                                       fontWeight:
-                                                      FontWeight.w500,
+                                                          FontWeight.w500,
+                                                      fontSize: 15),
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                          Row(
+                                            children: [
+                                              Image.asset(
+                                                  "Assets/Images/cleanerIcon.png",
+                                                  height: 18,
+                                                  width: 18,
+                                                  color: AppColor.orange),
+                                              SizedBox(
+                                                width: 198,
+                                                child: Text(
+                                                  " ${otherVahanData.cleaner_name ?? ""}",
+                                                  style: TextStyle(
+                                                      fontFamily:
+                                                          FontFamily.fontFamily,
+                                                      fontWeight:
+                                                          FontWeight.w500,
                                                       fontSize: 15),
                                                 ),
                                               ),
@@ -235,11 +288,14 @@ class _OtherSubscriptionScreenState extends State<OtherSubscriptionScreen> {
                                         ],
                                       ),
                                       Column(
-                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
                                         children: [
                                           Row(
-                                            mainAxisAlignment: MainAxisAlignment.end,
-                                            crossAxisAlignment: CrossAxisAlignment.start,
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.end,
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
                                             children: [
                                               const Icon(
                                                   Icons.watch_later_outlined,
@@ -251,24 +307,28 @@ class _OtherSubscriptionScreenState extends State<OtherSubscriptionScreen> {
                                                     fontSize: 12,
                                                     fontWeight: FontWeight.bold,
                                                     fontFamily:
-                                                    FontFamily.fontFamily),
+                                                        FontFamily.fontFamily),
                                               ),
                                             ],
                                           ),
                                           Row(
-                                            mainAxisAlignment: MainAxisAlignment.end,
-                                            crossAxisAlignment: CrossAxisAlignment.start,
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.end,
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
                                             children: [
                                               const Icon(Icons.location_on,
                                                   color: AppColor.neutral_500,
                                                   size: 14),
                                               Text(
-                                                (otherVahanData.parkingLocation ?? ""),
+                                                (otherVahanData
+                                                        .parkingLocation ??
+                                                    ""),
                                                 style: TextStyle(
                                                     fontSize: 12,
                                                     fontWeight: FontWeight.bold,
                                                     fontFamily:
-                                                    FontFamily.fontFamily),
+                                                        FontFamily.fontFamily),
                                               ),
                                             ],
                                           ),
@@ -277,7 +337,8 @@ class _OtherSubscriptionScreenState extends State<OtherSubscriptionScreen> {
                                             style: TextStyle(
                                                 fontSize: 12,
                                                 fontWeight: FontWeight.bold,
-                                                fontFamily: FontFamily.fontFamily),
+                                                fontFamily:
+                                                    FontFamily.fontFamily),
                                           ),
                                         ],
                                       ),
@@ -290,11 +351,11 @@ class _OtherSubscriptionScreenState extends State<OtherSubscriptionScreen> {
                     ),
                   ),
                 ),
-                Obx(() => Utility.loaderWidget(otherScreenController.isLoading.value)),
+                Obx(() => Utility.loaderWidget(
+                    otherScreenController.isLoading.value)),
               ],
             ),
           );
-        }
-    );
+        });
   }
 }

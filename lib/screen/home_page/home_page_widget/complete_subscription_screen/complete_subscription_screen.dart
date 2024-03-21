@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:vahan_cleaner/models/view_completed_subscription_response.dart';
+import '../../../../app_routes/app_routes.dart';
 import '../../../../get_controller_builder.dart';
+import '../../../../shared_preferences/local_data.dart';
 import '../../../../utils/colors.dart';
 import '../../../../utils/font_family.dart';
 import '../../../../utils/loading.dart';
@@ -28,6 +30,7 @@ class _CompleteSubscriptionScreenState extends State<CompleteSubscriptionScreen>
             child: Stack(
               children: [
                 SingleChildScrollView(
+                  physics: const AlwaysScrollableScrollPhysics(),
                   child: Padding(
                     padding: const EdgeInsets.all(20.0),
                     child: Column(
@@ -43,7 +46,7 @@ class _CompleteSubscriptionScreenState extends State<CompleteSubscriptionScreen>
                             }
                           },
                           decoration: InputDecoration(
-                            labelText: 'Search',
+                            labelText: 'Search among ${controller.completeVahans?.length ?? 0} vehicles',
                             contentPadding: EdgeInsets.zero,
                             prefixIcon: const Icon(Icons.search),
                             border: OutlineInputBorder(
@@ -162,77 +165,87 @@ class _CompleteSubscriptionScreenState extends State<CompleteSubscriptionScreen>
                             shrinkWrap: true,
                             itemBuilder: (context, index) {
                               CompleteVahan? completeVahanData = controller.filteredCompleteVahans[index];
-                              return Container(
-                                padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
-                                margin: const EdgeInsets.only(bottom: 10),
-                                decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(8),
-                                    color: AppColor.neutral_100,
-                                    border: Border.all(color: AppColor.orange_100),
-                                    boxShadow: [
-                                      BoxShadow(
-                                          color: AppColor.neutral_300.withOpacity(0.6),
-                                          offset: const Offset(0, 3),
-                                          spreadRadius: 4,
-                                          blurRadius: 4)
-                                    ]),
-                                child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                  crossAxisAlignment: CrossAxisAlignment.center,
-                                  children: [
-                                    Column(
-                                      crossAxisAlignment: CrossAxisAlignment.start,
-                                      children: [
-                                        Text(
-                                          completeVahanData?.regNumber ?? "",
-                                          style: TextStyle(
-                                              fontSize: 20,
-                                              fontWeight: FontWeight.bold,
-                                              fontFamily: FontFamily.fontFamily),
-                                        ),
-                                        Text(
-                                          " ${completeVahanData?.brand ?? ""} ${completeVahanData?.model ?? ""}",
-                                          style: TextStyle(
-                                              fontFamily: FontFamily.fontFamily,
-                                              fontWeight: FontWeight.w500,
-                                              fontSize: 15),
-                                        ),
-                                        Row(
-                                          children: [
-                                            const Icon(Icons.person,
-                                                color: AppColor.orange,
-                                                size: 18),
-                                            SizedBox(
-                                              width: 198,
-                                              child: Text(
-                                                " ${completeVahanData?.name ?? ""} (${completeVahanData?.flatInfo ?? ""})",
-                                                style: TextStyle(
-                                                    fontFamily: FontFamily.fontFamily,
-                                                    fontWeight: FontWeight.w500,
-                                                    fontSize: 15),
+                              return GestureDetector(
+                                  onTap: () {
+                                    if(GetSfLocalStorage.getClockOutTime().isEmpty) {
+                                      Get.toNamed(AppRoutes.addVahan, arguments: {
+                                        "vahanData": completeVahanData,
+                                        "baseUrl": controller.imageBaseUrl
+                                      });
+                                    }
+                                },
+                                child: Container(
+                                  padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
+                                  margin: const EdgeInsets.only(bottom: 10),
+                                  decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(8),
+                                      color: AppColor.neutral_100,
+                                      border: Border.all(color: AppColor.orange_100),
+                                      boxShadow: [
+                                        BoxShadow(
+                                            color: AppColor.neutral_300.withOpacity(0.6),
+                                            offset: const Offset(0, 3),
+                                            spreadRadius: 4,
+                                            blurRadius: 4)
+                                      ]),
+                                  child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                    crossAxisAlignment: CrossAxisAlignment.center,
+                                    children: [
+                                      Column(
+                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                        children: [
+                                          Text(
+                                            completeVahanData?.regNumber ?? "",
+                                            style: TextStyle(
+                                                fontSize: 20,
+                                                fontWeight: FontWeight.bold,
+                                                fontFamily: FontFamily.fontFamily),
+                                          ),
+                                          Text(
+                                            " ${completeVahanData?.brand ?? ""} ${completeVahanData?.model ?? ""}",
+                                            style: TextStyle(
+                                                fontFamily: FontFamily.fontFamily,
+                                                fontWeight: FontWeight.w500,
+                                                fontSize: 15),
+                                          ),
+                                          Row(
+                                            children: [
+                                              const Icon(Icons.person,
+                                                  color: AppColor.orange,
+                                                  size: 18),
+                                              SizedBox(
+                                                width: 198,
+                                                child: Text(
+                                                  " ${completeVahanData?.name ?? ""} (${completeVahanData?.flatInfo ?? ""})",
+                                                  style: TextStyle(
+                                                      fontFamily: FontFamily.fontFamily,
+                                                      fontWeight: FontWeight.w500,
+                                                      fontSize: 15),
+                                                ),
                                               ),
-                                            ),
-                                          ],
-                                        ),
-                                      ],
-                                    ),
-                                    Column(
-                                      crossAxisAlignment: CrossAxisAlignment.center,
-                                      children: [
-                                       Container(
-                                         width: 35,
-                                         height: 35,
-                                         decoration: BoxDecoration(
-                                           borderRadius: BorderRadius.circular(20),
-                                           color: AppColor.green
-                                         ),
-                                         child: const Center(
-                                           child: Icon(Icons.check, color: AppColor.neutral_100, size: 20),
-                                         ),
-                                       )
-                                      ],
-                                    ),
-                                  ],
+                                            ],
+                                          ),
+                                        ],
+                                      ),
+                                      Column(
+                                        crossAxisAlignment: CrossAxisAlignment.center,
+                                        children: [
+                                         Container(
+                                           width: 35,
+                                           height: 35,
+                                           decoration: BoxDecoration(
+                                             borderRadius: BorderRadius.circular(20),
+                                             color: AppColor.green
+                                           ),
+                                           child: const Center(
+                                             child: Icon(Icons.check, color: AppColor.neutral_100, size: 20),
+                                           ),
+                                         )
+                                        ],
+                                      ),
+                                    ],
+                                  ),
                                 ),
                               );
                             }),

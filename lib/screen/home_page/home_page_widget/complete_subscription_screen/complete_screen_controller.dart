@@ -19,8 +19,8 @@ class CompleteSubscriptionController extends GetxController {
   List<CompleteVahan> filteredCompleteVahans = [];
   String? imageBaseUrl;
   Stats? stats;
-  int? balance;
-  int? todaysEarning;
+  int balance = 0;
+  int todaysEarning = 0;
   File? pickedImage;
 
   @override
@@ -56,6 +56,7 @@ class CompleteSubscriptionController extends GetxController {
   Future<void> getCompletedVahanData() async {
     isLoading(true);
     String formattedDate = DateFormat('yyyy-MM-dd').format(now);
+    filteredCompleteVahans.clear();
     try {
       final response = await http.get(Uri.parse("${Apis.baseUrl}${Apis.getCompletedCleanerUrl}${GetSfLocalStorage.getAuthToken()}&date=$formattedDate"));
       ViewCompletedSubscriptionResponse completeVahanData = viewCompletedSubscriptionResponseFromJson(response.body);
@@ -67,8 +68,8 @@ class CompleteSubscriptionController extends GetxController {
           }
           imageBaseUrl = completeVahanData.baseurl ?? "";
           stats = completeVahanData.stats;
-          balance = stats?.balance;
-          todaysEarning = stats?.todaysEarning;
+          balance = stats?.balance ?? 0;
+          todaysEarning = stats?.todaysEarning ?? 0;
           printApiResponse(url: (Uri.parse("${Apis.baseUrl}${Apis.getCompletedCleanerUrl}${GetSfLocalStorage.getAuthToken()}&date=$formattedDate").toString()), response: response.body, statusCode: response.statusCode.toString());
         }
       } else {

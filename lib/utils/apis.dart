@@ -1,11 +1,13 @@
 class Apis {
-  static String baseUrl = "https://www.vahanplus.club/app/";
+  //static String baseUrl = "https://www.vahanplus.club/app/";
+  static String baseUrl = "http://65.1.77.233/vahanplus/app/";
   static String loginWithPasswordUrl = "cleaner/login.php";
   static String getPendingCleanerUrl = "cleaner/get-subscriptions.php?token=";
   static String getCompletedCleanerUrl = "cleaner/get-completed-subscription.php?token=";
   static String getOtherCleanerUrl = "cleaner/get-others-subscriptions.php?token=";
   static String addCleanerUrl = "cleaner/cleaning-log.php?token=";
   static String markAttendanceUrl = "cleaner/mark-attendance.php?token=";
+  static String getAttendanceUrl = "cleaner/get-attendance.php?token=";
   static String dashBoardUrl = "cleaner/dashboard.php?token=";
 }
 
@@ -38,4 +40,8 @@ printApiResponse({required String url, required String response, required String
 print("Api Url ==> $url");
 print("Api Status code ==> $statusCode");
 print("Api Response ==> $response");
+}
+
+printDoneService({required String serviceType}) {
+  print("Already done service ==> $serviceType");
 }

@@ -63,6 +63,7 @@ class CompleteVahan {
   final String? readyTime;
   final String? flatInfo;
   final String? points;
+  final String? mode;
 
   CompleteVahan({
     this.subscriptionId,
@@ -75,6 +76,7 @@ class CompleteVahan {
     this.readyTime,
     this.flatInfo,
     this.points,
+    this.mode,
   });
 
   factory CompleteVahan.fromJson(Map<String, dynamic> json) => CompleteVahan(
@@ -88,6 +90,7 @@ class CompleteVahan {
     readyTime: json["ready_time"],
     flatInfo: json["flat_info"],
     points: json["points"],
+    mode: json["mode"],
   );
 
   Map<String, dynamic> toJson() => {
@@ -101,5 +104,6 @@ class CompleteVahan {
     "ready_time": readyTime,
     "flat_info": flatInfo,
     "points": points,
+    "mode": mode,
   };
 }

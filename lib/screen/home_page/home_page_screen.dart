@@ -51,7 +51,7 @@ class _HomeScreenState extends State<HomeScreen> {
       backgroundColor: AppColor.neutral_200,
       appBar: PreferredSize(
           preferredSize: const Size.fromHeight(70.0),
-          child: CustomAppBar(isBack: false)),
+          child: CustomAppBar(isBack: false, isCalender: true)),
       bottomNavigationBar: GetBuilder(
           init: dashBoardScreenController,
           id: GetXControllerBuilders.dashBoardScreenController,

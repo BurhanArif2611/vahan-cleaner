@@ -7,4 +7,5 @@ class GetXControllerBuilders {
   static String otherScreenController = "otherScreenController";
   static String dashBoardScreenController = "dashBoardScreenController";
   static String addVehicleController = "addVehicleController";
+  static String getAttendanceController = "getAttendanceController";
 }

@@ -18,8 +18,8 @@ class PendingSubscriptionController extends GetxController {
   List<Vahan> filteredList = [];
   String? imageBaseUrl;
   Stats? stats;
-  int? balance;
-  int? todaysEarning;
+  int balance = 0;
+  int todaysEarning = 0;
   File? pickedImage;
 
   @override
@@ -66,8 +66,8 @@ class PendingSubscriptionController extends GetxController {
           }
           imageBaseUrl = vahansLIst.baseurl ?? "";
           stats = vahansLIst.stats;
-          balance = stats?.balance;
-          todaysEarning = stats?.todaysEarning;
+          balance = stats?.balance ?? 0;
+          todaysEarning = stats?.todaysEarning ?? 0;
           printApiResponse(url: (Uri.parse("${Apis.baseUrl}${Apis.getPendingCleanerUrl}${GetSfLocalStorage.getAuthToken()}&date=$formattedDate").toString()), response: response.body, statusCode: response.statusCode.toString());
         }
       } else {

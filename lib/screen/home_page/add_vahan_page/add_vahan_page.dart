@@ -16,7 +16,6 @@ class AddVehicleScreen extends StatefulWidget {
 }
 
 class _AddVehicleScreenState extends State<AddVehicleScreen> {
-
   AddPageController addVehicleController = Get.put(AddPageController());
 
   @override
@@ -33,8 +32,9 @@ class _AddVehicleScreenState extends State<AddVehicleScreen> {
                 backgroundColor: AppColor.neutral_200,
                 appBar: PreferredSize(
                     preferredSize: const Size.fromHeight(70.0),
-                    child: CustomAppBar(isBack: true,)
-                ),
+                    child: CustomAppBar(
+                      isBack: true, isCalender: false,
+                    )),
                 body: SingleChildScrollView(
                   child: Padding(
                     padding: const EdgeInsets.all(20),
@@ -47,7 +47,8 @@ class _AddVehicleScreenState extends State<AddVehicleScreen> {
                             color: primaryColor,
                             fontWeight: FontWeight.w600,
                             fontSize: 20,
-                            fontFamily: FontFamily.fontFamily,),
+                            fontFamily: FontFamily.fontFamily,
+                          ),
                         ),
                         SizedBox(
                           width: 300,
@@ -58,7 +59,8 @@ class _AddVehicleScreenState extends State<AddVehicleScreen> {
                               color: primaryColor,
                               fontWeight: FontWeight.w400,
                               fontSize: 16,
-                              fontFamily: FontFamily.fontFamily,),
+                              fontFamily: FontFamily.fontFamily,
+                            ),
                           ),
                         ),
                         const SizedBox(height: 20),
@@ -67,18 +69,24 @@ class _AddVehicleScreenState extends State<AddVehicleScreen> {
                           padding: const EdgeInsets.symmetric(vertical: 14),
                           decoration: BoxDecoration(
                               color: AppColor.neutral_100,
-                              border:
-                              Border.all(width: 0.7, color: AppColor.neutral_400),
+                              border: Border.all(
+                                  width: 0.7, color: AppColor.neutral_400),
                               borderRadius: BorderRadius.circular(8)),
                           child: Center(
                             child: Padding(
-                              padding: const EdgeInsets.symmetric(horizontal: 20),
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 20),
                               child: Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
                                 children: [
-                                  const Icon(Icons.watch_later_outlined, color: AppColor.orange_200,),
+                                  const Icon(
+                                    Icons.watch_later_outlined,
+                                    color: AppColor.orange_200,
+                                  ),
                                   Center(
-                                    child: Text(DateFormat('d MMM y').format(now),
+                                    child: Text(
+                                        DateFormat('d MMM y').format(now),
                                         maxLines: 1,
                                         style: TextStyle(
                                             fontSize: 20,
@@ -98,59 +106,92 @@ class _AddVehicleScreenState extends State<AddVehicleScreen> {
                               border: Border.all(color: AppColor.orange_100),
                               boxShadow: [
                                 BoxShadow(
-                                    color: AppColor.neutral_300.withOpacity(0.6),
+                                    color:
+                                        AppColor.neutral_300.withOpacity(0.6),
                                     offset: const Offset(0, 3),
                                     spreadRadius: 4,
-                                    blurRadius: 4
-                                )
-                              ]
-                          ),
+                                    blurRadius: 4)
+                              ]),
                           child: Column(
                             children: [
                               Container(
                                 width: MediaQuery.of(context).size.width,
-                                height: MediaQuery.of(context).size.height * 0.25,
+                                height:
+                                    MediaQuery.of(context).size.height * 0.25,
                                 decoration: BoxDecoration(
                                     color: AppColor.neutral_100,
-                                    borderRadius: const BorderRadius.only(topRight: Radius.circular(8), topLeft: Radius.circular(8)),
-                                    border: Border.all(color: AppColor.orange_100),
+                                    borderRadius: const BorderRadius.only(
+                                        topRight: Radius.circular(8),
+                                        topLeft: Radius.circular(8)),
+                                    border:
+                                        Border.all(color: AppColor.orange_100),
                                     boxShadow: [
                                       BoxShadow(
-                                          color: AppColor.neutral_300.withOpacity(0.6),
+                                          color: AppColor.neutral_300
+                                              .withOpacity(0.6),
                                           offset: const Offset(0, 3),
                                           spreadRadius: 4,
                                           blurRadius: 4)
                                     ]),
                                 child: ClipRRect(
-                                  borderRadius: const BorderRadius.only(topRight: Radius.circular(8), topLeft: Radius.circular(8)),
-                                  child: Image.network("${controller.imageBaseUrl ?? ""}${controller.vahans?.image ?? ""}",
+                                  borderRadius: const BorderRadius.only(
+                                      topRight: Radius.circular(8),
+                                      topLeft: Radius.circular(8)),
+                                  child: Image.network(
+                                    "${controller.imageBaseUrl ?? ""}${controller.vahans?.image ?? ""}",
                                     fit: BoxFit.cover,
                                     errorBuilder: (context, error, stackTrace) {
-                                      return const Icon(Icons.error_outline_outlined, color: AppColor.red);
-                                    },),
+                                      return const Icon(
+                                          Icons.error_outline_outlined,
+                                          color: AppColor.red);
+                                    },
+                                  ),
                                 ),
                               ),
                               Padding(
                                 padding: const EdgeInsets.only(bottom: 10),
                                 child: Padding(
-                                  padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: 15, vertical: 10),
                                   child: Row(
-                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                    crossAxisAlignment: CrossAxisAlignment.center,
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.center,
                                     children: [
                                       Column(
-                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
                                         children: [
-                                          Text(controller.vahans?.regNumber ?? "", style: TextStyle(
-                                              fontSize: 20, fontWeight: FontWeight.bold,
-                                              fontFamily: FontFamily.fontFamily
-                                          ),),
-                                          Text(" ${controller.vahans?.brand ?? ""} ${controller.vahans?.model ?? ""}", style: TextStyle(fontFamily: FontFamily.fontFamily, fontWeight: FontWeight.w500, fontSize: 15),),
+                                          Text(
+                                            controller.vahans?.regNumber ?? "",
+                                            style: TextStyle(
+                                                fontSize: 20,
+                                                fontWeight: FontWeight.bold,
+                                                fontFamily:
+                                                    FontFamily.fontFamily),
+                                          ),
+                                          Text(
+                                            " ${controller.vahans?.brand ?? ""} ${controller.vahans?.model ?? ""}",
+                                            style: TextStyle(
+                                                fontFamily:
+                                                    FontFamily.fontFamily,
+                                                fontWeight: FontWeight.w500,
+                                                fontSize: 15),
+                                          ),
                                           Row(
                                             children: [
-                                              const Icon(Icons.person, color: AppColor.orange, size: 18),
-                                              Text(" ${controller.vahans?.name ?? ""}", style: TextStyle(fontFamily: FontFamily.fontFamily, fontWeight: FontWeight.w500, fontSize: 15),),
-
+                                              const Icon(Icons.person,
+                                                  color: AppColor.orange,
+                                                  size: 18),
+                                              Text(
+                                                " ${controller.vahans?.name ?? ""}",
+                                                style: TextStyle(
+                                                    fontFamily:
+                                                        FontFamily.fontFamily,
+                                                    fontWeight: FontWeight.w500,
+                                                    fontSize: 15),
+                                              ),
                                             ],
                                           ),
                                         ],
@@ -158,22 +199,33 @@ class _AddVehicleScreenState extends State<AddVehicleScreen> {
                                       Column(
                                         children: [
                                           Row(
-                                            mainAxisAlignment: MainAxisAlignment.end,
-                                            crossAxisAlignment: CrossAxisAlignment.start,
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.end,
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
                                             children: [
-                                              const Icon(Icons.location_on, color: AppColor.neutral_500, size: 14),
-                                              Text((controller.vahans?.parkingLocation ?? ""), style: TextStyle(
-                                                  fontSize: 12, fontWeight: FontWeight.bold,
-                                                  fontFamily: FontFamily.fontFamily
-                                              ),),
+                                              const Icon(Icons.location_on,
+                                                  color: AppColor.neutral_500,
+                                                  size: 14),
+                                              Text(
+                                                (controller.vahans
+                                                        ?.parkingLocation ??
+                                                    ""),
+                                                style: TextStyle(
+                                                    fontSize: 12,
+                                                    fontWeight: FontWeight.bold,
+                                                    fontFamily:
+                                                        FontFamily.fontFamily),
+                                              ),
                                             ],
                                           ),
-                                          Text("+${controller.vahans?.points} coins",
+                                          Text(
+                                            "+${controller.vahans?.points} coins",
                                             style: TextStyle(
                                                 fontSize: 12,
                                                 fontWeight: FontWeight.bold,
                                                 fontFamily:
-                                                FontFamily.fontFamily),
+                                                    FontFamily.fontFamily),
                                           ),
                                         ],
                                       ),
@@ -190,50 +242,103 @@ class _AddVehicleScreenState extends State<AddVehicleScreen> {
                           padding: const EdgeInsets.symmetric(vertical: 7),
                           decoration: BoxDecoration(
                               color: AppColor.neutral_100,
-                              border:
-                              Border.all(width: 0.7, color: AppColor.neutral_400),
+                              border: Border.all(
+                                  width: 0.7, color: AppColor.neutral_400),
                               borderRadius: BorderRadius.circular(8)),
                           child: Padding(
                             padding: const EdgeInsets.symmetric(horizontal: 20),
-                            child: Row(
+                            child: Column(
                               children: [
                                 Row(
                                   children: [
-                                    const Icon(Icons.cleaning_services, color: AppColor.orange_200,),
-                                    Text(" Mode", style: TextStyle(
-                                      color: primaryColor,
-                                      fontWeight: FontWeight.w400,
-                                      fontSize: 16,
-                                      fontFamily: FontFamily.fontFamily,),)
-                                  ],
-                                ),
-                                const Spacer(),
-                                Row(
-                                  children: [
-                                    Radio<CarModeValue>(
-                                      value: CarModeValue.External,
-                                      groupValue: controller.selectedOption,
-                                      onChanged: (value) => controller.selectCarMode(value),
+                                    const Icon(
+                                      Icons.cleaning_services,
+                                      color: AppColor.orange_200,
                                     ),
-                                    Text("External", style: TextStyle(
-                                      color: primaryColor,
-                                      fontWeight: FontWeight.w400,
-                                      fontSize: 14,
-                                      fontFamily: FontFamily.fontFamily,),)
+                                    Text(
+                                      " Mode",
+                                      style: TextStyle(
+                                        color: primaryColor,
+                                        fontWeight: FontWeight.w400,
+                                        fontSize: 16,
+                                        fontFamily: FontFamily.fontFamily,
+                                      ),
+                                    )
                                   ],
                                 ),
                                 Row(
+                                  mainAxisAlignment: MainAxisAlignment.start,
                                   children: [
-                                    Radio<CarModeValue>(
-                                      value: CarModeValue.Internal,
-                                      groupValue: controller.selectedOption,
-                                      onChanged: (value) => controller.selectCarMode(value),
+                                    Row(
+                                      children: [
+                                        Radio<CarModeValue>(
+                                          activeColor: AppColor.orange,
+                                          value: CarModeValue.External,
+                                          groupValue: controller.serviceType.toLowerCase() == "out"
+                                          ? CarModeValue.External
+                                          : controller.selectedOption,
+                                          onChanged:
+                                              controller.serviceType.toLowerCase() == "out"
+                                                  ? null
+                                                  : (value) {controller.selectCarMode(value);},
+                                        ),
+                                        Text(
+                                          "External",
+                                          style: TextStyle(
+                                            color: primaryColor,
+                                            fontWeight: FontWeight.w400,
+                                            fontSize: 14,
+                                            fontFamily: FontFamily.fontFamily,
+                                          ),
+                                        )
+                                      ],
                                     ),
-                                    Text("Internal", style: TextStyle(
-                                      color: primaryColor,
-                                      fontWeight: FontWeight.w400,
-                                      fontSize: 14,
-                                      fontFamily: FontFamily.fontFamily,),)
+                                    Row(
+                                      children: [
+                                        Radio<CarModeValue>(
+                                          activeColor: AppColor.orange,
+                                          value: CarModeValue.Internal,
+                                          groupValue: controller.serviceType.toLowerCase() == "in"
+                                              ? CarModeValue.Internal
+                                              : controller.selectedOption,
+                                          onChanged: controller.serviceType.toLowerCase() == "in"
+                                              ? null
+                                              : (value) {controller.selectCarMode(value);},
+                                        ),
+                                        Text(
+                                          "Internal",
+                                          style: TextStyle(
+                                            color: primaryColor,
+                                            fontWeight: FontWeight.w400,
+                                            fontSize: 14,
+                                            fontFamily: FontFamily.fontFamily,
+                                          ),
+                                        )
+                                      ],
+                                    ),
+                                    Row(
+                                      children: [
+                                        Radio<CarModeValue>(
+                                          activeColor: AppColor.orange,
+                                          value: CarModeValue.NA,
+                                          groupValue: controller.serviceType.toLowerCase() == "na"
+                                              ? CarModeValue.NA
+                                              : controller.selectedOption,
+                                          onChanged: controller.serviceType.toLowerCase() == "na"
+                                              ? null
+                                              : (value) {controller.selectCarMode(value);},
+                                        ),
+                                        Text(
+                                          "NA",
+                                          style: TextStyle(
+                                            color: primaryColor,
+                                            fontWeight: FontWeight.w400,
+                                            fontSize: 14,
+                                            fontFamily: FontFamily.fontFamily,
+                                          ),
+                                        )
+                                      ],
+                                    ),
                                   ],
                                 ),
                               ],
@@ -244,7 +349,7 @@ class _AddVehicleScreenState extends State<AddVehicleScreen> {
                         Container(
                           decoration: BoxDecoration(
                             color: AppColor.neutral_100,
-                            border: Border.all(color:buttoncolor, width: 0.7),
+                            border: Border.all(color: buttoncolor, width: 0.7),
                             borderRadius: const BorderRadius.all(
                               Radius.circular(10),
                             ),
@@ -255,14 +360,16 @@ class _AddVehicleScreenState extends State<AddVehicleScreen> {
                             ),
                             child: controller.pickedImage != null
                                 ? Image.file(
-                              controller.pickedImage!,
-                              width: MediaQuery.of(context).size.width - 40,
-                              height: 220,
-                              fit: BoxFit.cover,
-                            )
+                                    controller.pickedImage!,
+                                    width:
+                                        MediaQuery.of(context).size.width - 40,
+                                    height: 220,
+                                    fit: BoxFit.cover,
+                                  )
                                 : Container(
-                              width: MediaQuery.of(context).size.width - 40,
-                              height: 220,
+                                    width:
+                                        MediaQuery.of(context).size.width - 40,
+                                    height: 220,
                                     child: Image.asset(
                                       "Assets/Images/sport-car.png",
                                       scale: 5,
@@ -295,8 +402,7 @@ class _AddVehicleScreenState extends State<AddVehicleScreen> {
                   ),
                 ),
               );
-            }
-        ),
+            }),
         Obx(() => Utility.loaderWidget(addVehicleController.isLoading.value)),
       ],
     );
@@ -321,7 +427,11 @@ class _AddVehicleScreenState extends State<AddVehicleScreen> {
                 children: [
                   Text(
                     "Pic Image From",
-                    style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, fontFamily: FontFamily.fontFamily,),
+                    style: TextStyle(
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold,
+                      fontFamily: FontFamily.fontFamily,
+                    ),
                     textAlign: TextAlign.center,
                   ),
                   const SizedBox(
@@ -331,10 +441,18 @@ class _AddVehicleScreenState extends State<AddVehicleScreen> {
                     onPressed: () {
                       controller.pickImage(ImageSource.camera, context);
                     },
-                    icon: const Icon(Icons.camera, color: AppColor.neutral_100,),
+                    icon: const Icon(
+                      Icons.camera,
+                      color: AppColor.neutral_100,
+                    ),
                     label: Text(
                       "CAMERA",
-                      style: TextStyle(fontWeight: FontWeight.w500, fontSize: 15, color: AppColor.neutral_100, fontFamily: FontFamily.fontFamily,),
+                      style: TextStyle(
+                        fontWeight: FontWeight.w500,
+                        fontSize: 15,
+                        color: AppColor.neutral_100,
+                        fontFamily: FontFamily.fontFamily,
+                      ),
                     ),
                     style: ButtonStyle(
                       backgroundColor: MaterialStateProperty.all(primaryColor),
@@ -350,7 +468,11 @@ class _AddVehicleScreenState extends State<AddVehicleScreen> {
                       controller.pickImage(ImageSource.gallery, context);
                     },
                     icon: const Icon(Icons.image, color: AppColor.neutral_100),
-                    label: Text("GALLERY", style: TextStyle(color: AppColor.neutral_100, fontFamily: FontFamily.fontFamily,)),
+                    label: Text("GALLERY",
+                        style: TextStyle(
+                          color: AppColor.neutral_100,
+                          fontFamily: FontFamily.fontFamily,
+                        )),
                     style: ButtonStyle(
                       backgroundColor: MaterialStateProperty.all(primaryColor),
                       shadowColor: MaterialStateProperty.all(Colors.grey),
@@ -365,7 +487,11 @@ class _AddVehicleScreenState extends State<AddVehicleScreen> {
                       Get.back();
                     },
                     icon: const Icon(Icons.close, color: AppColor.neutral_100),
-                    label: Text("CANCEL", style: TextStyle(color: AppColor.neutral_100, fontFamily: FontFamily.fontFamily,)),
+                    label: Text("CANCEL",
+                        style: TextStyle(
+                          color: AppColor.neutral_100,
+                          fontFamily: FontFamily.fontFamily,
+                        )),
                     style: ButtonStyle(
                       backgroundColor: MaterialStateProperty.all(primaryColor),
                       shadowColor: MaterialStateProperty.all(Colors.grey),
@@ -382,7 +508,8 @@ class _AddVehicleScreenState extends State<AddVehicleScreen> {
   }
 
   /// Method use for text field decoration.
-  InputDecoration commonDecoration({required String hintText, Widget? suffixIcon}) {
+  InputDecoration commonDecoration(
+      {required String hintText, Widget? suffixIcon}) {
     return InputDecoration(
       fillColor: AppColor.neutral_100,
       filled: true,
@@ -424,16 +551,19 @@ class _AddVehicleScreenState extends State<AddVehicleScreen> {
       padding: const EdgeInsets.only(bottom: 8.0, top: 10),
       child: Row(
         children: [
-          Text(label, textAlign: TextAlign.start, style: TextStyle(
-            color: AppColor.neutral_700,
-            fontWeight: FontWeight.w600,
-            fontFamily: FontFamily.fontFamily,
-          ),),
+          Text(
+            label,
+            textAlign: TextAlign.start,
+            style: TextStyle(
+              color: AppColor.neutral_700,
+              fontWeight: FontWeight.w600,
+              fontFamily: FontFamily.fontFamily,
+            ),
+          ),
         ],
       ),
     );
   }
 }
 
-enum CarModeValue { Internal, External }
-
+enum CarModeValue { Internal, External, NA }

@@ -17,8 +17,8 @@ class OtherSubscriptionController extends GetxController {
   List<OthersVahan> filterOthersVahans = [];
   String? imageBaseUrl;
   OthersStats? othersStats;
-  int? balance;
-  int? todaysEarning;
+  int balance = 0;
+  int todaysEarning = 0;
 
   @override
   void onInit() async {
@@ -64,8 +64,8 @@ class OtherSubscriptionController extends GetxController {
           }
           imageBaseUrl = otherVahanData.baseurl ?? "";
           othersStats = otherVahanData.stats;
-          balance = othersStats?.balance;
-          todaysEarning = othersStats?.todaysEarning;
+          balance = othersStats?.balance ?? 0;
+          todaysEarning = othersStats?.todaysEarning ?? 0;
           printApiResponse(url: (Uri.parse("${Apis.baseUrl}${Apis.getOtherCleanerUrl}${GetSfLocalStorage.getAuthToken()}&date=$formattedDate").toString()), response: response.body, statusCode: response.statusCode.toString());
         }
       } else {
