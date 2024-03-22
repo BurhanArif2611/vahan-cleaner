@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:percent_indicator/circular_percent_indicator.dart';
 import 'package:vahan_cleaner/screen/home_page/home_page_widget/dashboard_screen/dashboard_screen_controller.dart';
+import 'package:vahan_cleaner/widget/alert_dialog_box.dart';
 import '../../../../get_controller_builder.dart';
 import '../../../../utils/colors.dart';
 import '../../../../utils/font_family.dart';
@@ -265,11 +266,21 @@ class _DashBoardScreenState extends State<DashBoardScreen> {
                               onTap: () {
                                 controller.workingHr.isNotEmpty && controller.clockOutTime.isNotEmpty
                                 ? {}
-                                : controller.clockINOut(context);
+                                : controller.clockInTime.isEmpty
+                                  ? controller.clockINOut(context)
+                                  : confirmationDialog(
+                                    context: context,
+                                    titleText: 'Confirmation',
+                                    contentText: 'Are you sure you want to clock out?',
+                                    onPressedYes: () {
+                                      Get.back();
+                                      controller.clockINOut(context);
+                                    },
+                                );
                               },
                               child: Container(
                                 width: MediaQuery.of(context).size.width * 0.888,
-                                height: MediaQuery.of(context).size.height * 0.08,
+                                height: 45,
                                 decoration: BoxDecoration(
                                   borderRadius: BorderRadius.circular(8),
                                   color: controller.workingHr.isNotEmpty
@@ -302,7 +313,7 @@ class _DashBoardScreenState extends State<DashBoardScreen> {
                                     style: TextStyle(
                                       color: AppColor.neutral_100,
                                       fontFamily: FontFamily.fontFamily,
-                                      fontSize: 20,
+                                      fontSize: 17,
                                       fontWeight: FontWeight.w500
                                     ),
                                     ),

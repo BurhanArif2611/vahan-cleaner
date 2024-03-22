@@ -5,10 +5,12 @@ import 'package:intl/intl.dart';
 import '../../../../get_controller_builder.dart';
 import '../../../../models/get_dashBoard_data_model.dart';
 import '../../../../models/mark_attendance_model.dart';
+import '../../../../models/view_pending_subscription_response.dart';
 import '../../../../shared_preferences/local_data.dart';
 import '../../../../utils/apis.dart';
 import 'package:http/http.dart' as http;
 import '../../../../utils/snackbar.dart';
+import '../../../../widget/alert_dialog_box.dart';
 
 class DashBoardScreenController extends GetxController{
   var isLoading = false.obs;
@@ -26,6 +28,8 @@ class DashBoardScreenController extends GetxController{
   int target = 0;
   double achivePrecentage = 0.0;
   String userName = "";
+  DateTime now = DateTime.now();
+  List<Vahan> pendingVahans = [];
 
   /// Initial method.
   @override
@@ -33,6 +37,7 @@ class DashBoardScreenController extends GetxController{
     super.onInit();
     userName = GetSfLocalStorage.getCleanerName();
     sendLocation();
+    getPendingVahanList();
     getDashBoardData();
   }
 
@@ -136,44 +141,81 @@ class DashBoardScreenController extends GetxController{
     update([GetXControllerBuilders.dashBoardScreenController]);
   }
 
+  /// Method use to get pending vehicles brands response.
+  Future<void> getPendingVahanList() async {
+    isLoading(true);
+    String formattedDate = DateFormat('yyyy-MM-dd').format(now);
+    try {
+      final response = await http.get(Uri.parse("${Apis.baseUrl}${Apis.getPendingCleanerUrl}${GetSfLocalStorage.getAuthToken()}&date=$formattedDate"));
+      ViewPendingSubscriptionResponse vahansLIst = viewSubscriptionResponseFromJson(response.body);
+      if (response.statusCode == 200) {
+        if (vahansLIst.status ?? false) {
+          pendingVahans = vahansLIst.vahans ?? [];
+          printApiResponse(url: (Uri.parse("${Apis.baseUrl}${Apis.getPendingCleanerUrl}${GetSfLocalStorage.getAuthToken()}&date=$formattedDate").toString()), response: response.body, statusCode: response.statusCode.toString());
+        }
+      } else {
+        printApiResponse(url:  (Uri.parse("${Apis.baseUrl}${Apis.getPendingCleanerUrl}${GetSfLocalStorage.getAuthToken()}&date=$formattedDate").toString()), response: response.body, statusCode: response.statusCode.toString());
+        setSnackBar("Failed to load data. Status code: ${response.statusCode}", Get.context, vahansLIst.status ?? false);
+      }
+    } catch (e) {
+      printCatchError(url: (Uri.parse("${Apis.baseUrl}${Apis.getPendingCleanerUrl}${GetSfLocalStorage.getAuthToken()}&date=$formattedDate").toString()), error: e.toString());
+    }
+    isLoading(false);
+    update([GetXControllerBuilders.dashBoardScreenController]);
+  }
 
-    /// Method use to clock IN and OUT.
+  /// Method use to clock IN and OUT.
   clockINOut(BuildContext context) async {
     isLoading(true);
     inTime = getCurrentTime();
-    Uri url = Uri.parse("${Apis.baseUrl}${Apis.markAttendanceUrl}${GetSfLocalStorage.getAuthToken()}");
-    var request = http.MultipartRequest('POST', url);
+    if(pendingVahans.isNotEmpty && clockInTime.isNotEmpty) {
+      warningDialog(
+        context: context,
+        titleText: 'Warning',
+        contentText: 'Please, complete your all vahan before CLOCKOUT',
+        onPressedYes: () {
+          Get.back();
+        },
+      );
+    } else {
+      Uri url = Uri.parse("${Apis.baseUrl}${Apis.markAttendanceUrl}${GetSfLocalStorage.getAuthToken()}");
+      var request = http.MultipartRequest('POST', url);
+      if(pendingVahans.isEmpty && clockInTime.isNotEmpty) {
+        request.fields['type'] = "out";
+      } else if(clockInTime.isEmpty) {
+        request.fields['type'] = "in";
+      }
+      //request.fields['type'] = clockInTime.isNotEmpty ? "out" : "in";
+      request.fields['time'] = inTime;
+      request.fields['latitude'] = latitude;
+      request.fields['longitude'] = longitude;
+      printApiBody(body: request.fields.toString());
 
-    request.fields['type'] = clockInTime.isNotEmpty ? "out" : "in";
-    request.fields['time'] = inTime;
-    request.fields['latitude'] = latitude;
-    request.fields['longitude'] = longitude;
-    printApiBody(body: request.fields.toString());
-
-    try {
-      var response = await request.send();
-      var responseBody = await http.Response.fromStream(response);
-      MarkAttendanceModel markAttendanceData = markAttendanceModelFromJson(responseBody.body);
-      if (response.statusCode == 200) {
-        if(markAttendanceData.status ?? false) {
-          printApiResponse(url: (url.toString()), statusCode: response.statusCode.toString(), response: responseBody.body );
-          // ignore: use_build_context_synchronously
-          setSnackBar(markAttendanceData.message ?? "", context, markAttendanceData.status ?? false);
-          getDashBoardData();
+      try {
+        var response = await request.send();
+        var responseBody = await http.Response.fromStream(response);
+        MarkAttendanceModel markAttendanceData = markAttendanceModelFromJson(responseBody.body);
+        if (response.statusCode == 200) {
+          if(markAttendanceData.status ?? false) {
+            printApiResponse(url: (url.toString()), statusCode: response.statusCode.toString(), response: responseBody.body );
+            // ignore: use_build_context_synchronously
+            setSnackBar(markAttendanceData.message ?? "", context, markAttendanceData.status ?? false);
+            getDashBoardData();
+          } else {
+            printApiResponse(url: (url.toString()), statusCode: response.statusCode.toString(), response: responseBody.body );
+            // ignore: use_build_context_synchronously
+            setSnackBar(markAttendanceData.message ?? "", context, markAttendanceData.status ?? false);
+          }
         } else {
           printApiResponse(url: (url.toString()), statusCode: response.statusCode.toString(), response: responseBody.body );
           // ignore: use_build_context_synchronously
           setSnackBar(markAttendanceData.message ?? "", context, markAttendanceData.status ?? false);
         }
-      } else {
-        printApiResponse(url: (url.toString()), statusCode: response.statusCode.toString(), response: responseBody.body );
-        // ignore: use_build_context_synchronously
-        setSnackBar(markAttendanceData.message ?? "", context, markAttendanceData.status ?? false);
+      } catch (e) {
+        printCatchError(url: (url.toString()), error: e.toString());
       }
-    } catch (e) {
-      printCatchError(url: (url.toString()), error: e.toString());
     }
-    //isLoading(false);
+    isLoading(false);
     update([GetXControllerBuilders.dashBoardScreenController]);
   }
 }

@@ -63,7 +63,7 @@ class _GetAttendanceScreenState extends State<GetAttendanceScreen> {
                         padding: const EdgeInsets.symmetric(
                             vertical: 10,
                             horizontal: 15),
-                        color: AppColor.green_200,
+                        color: AppColor.orange_200,
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
@@ -195,7 +195,7 @@ class _GetAttendanceScreenState extends State<GetAttendanceScreen> {
                                     mainAxisAlignment: MainAxisAlignment.center,
                                     children: [
                                       const Icon(Icons.watch_later_outlined,
-                                          color: AppColor.green, size: 18),
+                                          color: AppColor.orange, size: 18),
                                       Text(controller.inTime ?? "__:__",
                                         style: TextStyle(
                                             fontFamily: FontFamily.fontFamily,
@@ -211,7 +211,7 @@ class _GetAttendanceScreenState extends State<GetAttendanceScreen> {
                                   child: Row(
                                     children: [
                                       const Icon(Icons.watch_later_outlined,
-                                          color: AppColor.green, size: 18),
+                                          color: AppColor.orange, size: 18),
                                       Text(controller.outTime ?? "__:__",
                                         style: TextStyle(
                                             fontFamily: FontFamily.fontFamily,

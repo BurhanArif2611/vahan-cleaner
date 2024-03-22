@@ -5,6 +5,7 @@ import '../app_routes/app_routes.dart';
 import '../utils/colors.dart';
 import '../utils/font_family.dart';
 import '../utils/snackbar.dart';
+import 'alert_dialog_box.dart';
 
 class CustomAppBar extends StatefulWidget {
   bool isBack;
@@ -77,77 +78,15 @@ class _CustomAppBarState extends State<CustomAppBar> {
         ),
         GestureDetector(
           onTap: () {
-            showDialog(
-              context: context,
-              builder: (BuildContext context) {
-                return AlertDialog(
-                  title: Center(
-                    child: Text(
-                      'Confirmation',
-                      style: TextStyle(
-                        color: primaryColor,
-                        fontWeight: FontWeight.bold,
-                        fontSize: 14,
-                        fontFamily: FontFamily.fontFamily,
-                      ),
-                    ),
-                  ),
-                  content: Text(
-                    'Are you sure you want to log out?',
-                    style: TextStyle(
-                      color: primaryColor,
-                      fontWeight: FontWeight.w400,
-                      fontSize: 12,
-                      fontFamily: FontFamily.fontFamily,
-                    ),
-                  ),
-                  actions: <Widget>[
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        TextButton(
-                          onPressed: () {
-                            Get.back();
-                          },
-                          child: Text(
-                            'Cancel',
-                            style: TextStyle(
-                              color: primaryColor,
-                              fontWeight: FontWeight.bold,
-                              fontSize: 12,
-                              fontFamily: FontFamily.fontFamily,
-                            ),
-                          ),
-                        ),
-                        Container(
-                          height: 30,
-                          width: 2,
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(5),
-                            color: AppColor.neutral_500,
-                          ),
-                        ),
-                        TextButton(
-                          onPressed: () {
-                            GetSfLocalStorage.clear();
-                            setSnackBar("Logout Successfully", context, true);
-                            Get.offAllNamed(AppRoutes.loginPage);
-                          },
-                          child: Text(
-                            'OK',
-                            style: TextStyle(
-                              color: buttoncolor,
-                              fontWeight: FontWeight.bold,
-                              fontSize: 12,
-                              fontFamily: FontFamily.fontFamily,
-                            ),
-                          ),
-                        ),
-                      ],
-                    )
-                  ],
-                );
-              },
+            confirmationDialog(
+                context: context,
+                titleText: 'Confirmation',
+                contentText: 'Are you sure you want to log out?',
+                onPressedYes: () {
+                  GetSfLocalStorage.clear();
+                  setSnackBar("Logout Successfully", context, true);
+                  Get.offAllNamed(AppRoutes.loginPage);
+                },
             );
           },
           child: Container(
