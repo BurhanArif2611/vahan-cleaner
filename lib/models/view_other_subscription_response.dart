@@ -2,8 +2,6 @@ import 'dart:convert';
 
 OtherSubscriptionModel otherSubscriptionModelFromJson(String str) => OtherSubscriptionModel.fromJson(json.decode(str));
 
-String otherSubscriptionModelToJson(OtherSubscriptionModel data) => json.encode(data.toJson());
-
 class OtherSubscriptionModel {
   final bool? status;
   final List<OthersVahan>? vahans;
@@ -23,13 +21,6 @@ class OtherSubscriptionModel {
     baseurl: json["baseurl"],
     stats: json["stats"] == null ? null : OthersStats.fromJson(json["stats"]),
   );
-
-  Map<String, dynamic> toJson() => {
-    "status": status,
-    "vahans": vahans == null ? [] : List<dynamic>.from(vahans!.map((x) => x.toJson())),
-    "baseurl": baseurl,
-    "stats": stats?.toJson(),
-  };
 }
 
 class OthersStats {
@@ -45,11 +36,6 @@ class OthersStats {
     balance: json["balance"],
     todaysEarning: json["todays_earning"],
   );
-
-  Map<String, dynamic> toJson() => {
-    "balance": balance,
-    "todays_earning": todaysEarning,
-  };
 }
 
 class OthersVahan {
@@ -63,7 +49,8 @@ class OthersVahan {
   final String? readyTime;
   final String? flatInfo;
   final String? points;
-  final String? cleaner_name;
+  final String? cleanerName;
+  final String? locationName;
   final String mode = "";
 
   OthersVahan({
@@ -77,7 +64,8 @@ class OthersVahan {
     this.readyTime,
     this.flatInfo,
     this.points,
-    this.cleaner_name,
+    this.cleanerName,
+    this.locationName,
   });
 
   factory OthersVahan.fromJson(Map<String, dynamic> json) => OthersVahan(
@@ -91,20 +79,7 @@ class OthersVahan {
     readyTime: json["ready_time"],
     flatInfo: json["flat_info"],
     points: json["points"],
-    cleaner_name: json["cleaner_name"],
+    cleanerName: json["cleaner_name"],
+    locationName: json["location_name"],
   );
-
-  Map<String, dynamic> toJson() => {
-    "subscription_id": subscriptionId,
-    "name": name,
-    "brand": brand,
-    "model": model,
-    "reg_number": regNumber,
-    "parking_location": parkingLocation,
-    "image": image,
-    "ready_time": readyTime,
-    "flat_info": flatInfo,
-    "points": points,
-    "cleaner_name": cleaner_name,
-  };
 }

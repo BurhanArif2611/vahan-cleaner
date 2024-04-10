@@ -1,7 +1,9 @@
+import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
+import 'package:vahan_cleaner/models/get_cleaner_model.dart';
 import '../../../../get_controller_builder.dart';
 import '../../../../utils/font_family.dart';
 import '../../../../utils/loading.dart';
@@ -21,7 +23,7 @@ class _AddVehicleScreenState extends State<AddVehicleScreen> {
   @override
   Widget build(BuildContext context) {
     DateTime now = DateTime.now();
-    String formattedDate = DateFormat('hh : mm a').format(DateTime.now());
+    DateFormat('hh : mm a').format(DateTime.now());
     return Stack(
       children: [
         GetBuilder<AddPageController>(
@@ -33,7 +35,8 @@ class _AddVehicleScreenState extends State<AddVehicleScreen> {
                 appBar: PreferredSize(
                     preferredSize: const Size.fromHeight(70.0),
                     child: CustomAppBar(
-                      isBack: true, isCalender: false,
+                      isBack: true,
+                      isCalender: true,
                     )),
                 body: SingleChildScrollView(
                   child: Padding(
@@ -194,6 +197,23 @@ class _AddVehicleScreenState extends State<AddVehicleScreen> {
                                               ),
                                             ],
                                           ),
+                                          Row(
+                                            children: [
+                                              Image.asset(
+                                                  "Assets/Images/addressIcon.png",
+                                                  height: 15,
+                                                  width: 15,
+                                                  color: AppColor.orange),
+                                              Text(
+                                                " ${controller.address ?? ""}",
+                                                style: TextStyle(
+                                                    fontFamily:
+                                                    FontFamily.fontFamily,
+                                                    fontWeight: FontWeight.w500,
+                                                    fontSize: 15),
+                                              ),
+                                            ],
+                                          ),
                                         ],
                                       ),
                                       Column(
@@ -274,13 +294,19 @@ class _AddVehicleScreenState extends State<AddVehicleScreen> {
                                         Radio<CarModeValue>(
                                           activeColor: AppColor.orange,
                                           value: CarModeValue.External,
-                                          groupValue: controller.serviceType.toLowerCase() == "out"
-                                          ? CarModeValue.External
-                                          : controller.selectedOption,
-                                          onChanged:
-                                              controller.serviceType.toLowerCase() == "out"
-                                                  ? null
-                                                  : (value) {controller.selectCarMode(value);},
+                                          groupValue: controller.serviceType
+                                                      .toLowerCase() ==
+                                                  "out"
+                                              ? CarModeValue.External
+                                              : controller.selectedOption,
+                                          onChanged: controller.serviceType
+                                                      .toLowerCase() ==
+                                                  "out"
+                                              ? null
+                                              : (value) {
+                                                  controller
+                                                      .selectCarMode(value);
+                                                },
                                         ),
                                         Text(
                                           "External",
@@ -298,12 +324,19 @@ class _AddVehicleScreenState extends State<AddVehicleScreen> {
                                         Radio<CarModeValue>(
                                           activeColor: AppColor.orange,
                                           value: CarModeValue.Internal,
-                                          groupValue: controller.serviceType.toLowerCase() == "in"
+                                          groupValue: controller.serviceType
+                                                      .toLowerCase() ==
+                                                  "in"
                                               ? CarModeValue.Internal
                                               : controller.selectedOption,
-                                          onChanged: controller.serviceType.toLowerCase() == "in"
+                                          onChanged: controller.serviceType
+                                                      .toLowerCase() ==
+                                                  "in"
                                               ? null
-                                              : (value) {controller.selectCarMode(value);},
+                                              : (value) {
+                                                  controller
+                                                      .selectCarMode(value);
+                                                },
                                         ),
                                         Text(
                                           "Internal",
@@ -321,12 +354,19 @@ class _AddVehicleScreenState extends State<AddVehicleScreen> {
                                         Radio<CarModeValue>(
                                           activeColor: AppColor.orange,
                                           value: CarModeValue.NA,
-                                          groupValue: controller.serviceType.toLowerCase() == "na"
+                                          groupValue: controller.serviceType
+                                                      .toLowerCase() ==
+                                                  "na"
                                               ? CarModeValue.NA
                                               : controller.selectedOption,
-                                          onChanged: controller.serviceType.toLowerCase() == "na"
+                                          onChanged: controller.serviceType
+                                                      .toLowerCase() ==
+                                                  "na"
                                               ? null
-                                              : (value) {controller.selectCarMode(value);},
+                                              : (value) {
+                                                  controller
+                                                      .selectCarMode(value);
+                                                },
                                         ),
                                         Text(
                                           "NA",
@@ -346,36 +386,131 @@ class _AddVehicleScreenState extends State<AddVehicleScreen> {
                           ),
                         ),
                         const SizedBox(height: 10),
-                        Container(
-                          decoration: BoxDecoration(
-                            color: AppColor.neutral_100,
-                            border: Border.all(color: buttoncolor, width: 0.7),
-                            borderRadius: const BorderRadius.all(
-                              Radius.circular(10),
+                        (controller.isOther ?? false) ?
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              "Select Clearer",
+                              style: TextStyle(
+                                color: primaryColor,
+                                fontWeight: FontWeight.w500,
+                                fontSize: 16,
+                                fontFamily: FontFamily.fontFamily,
+                              ),
                             ),
-                          ),
-                          child: ClipRRect(
-                            borderRadius: const BorderRadius.all(
-                              Radius.circular(10),
-                            ),
-                            child: controller.pickedImage != null
-                                ? Image.file(
-                                    controller.pickedImage!,
-                                    width:
-                                        MediaQuery.of(context).size.width - 40,
-                                    height: 220,
-                                    fit: BoxFit.cover,
-                                  )
-                                : Container(
-                                    width:
-                                        MediaQuery.of(context).size.width - 40,
-                                    height: 220,
-                                    child: Image.asset(
-                                      "Assets/Images/sport-car.png",
-                                      scale: 5,
-                                      color: AppColor.neutral_400,
+                            DropdownButtonHideUnderline(
+                              child: DropdownButton2<String>(
+                                isExpanded: true,
+                                hint: const Row(
+                                  children: [
+                                    Icon(
+                                      Icons.list,
+                                      size: 22,
+                                      color: AppColor.neutral_500,
                                     ),
+                                    SizedBox(width: 8),
+                                    Expanded(
+                                      child: Text(
+                                        'Select Cleaner',
+                                        style: TextStyle(
+                                          fontSize: 14,
+                                          color: AppColor.neutral_500,
+                                        ),
+                                        overflow: TextOverflow.ellipsis,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                                items: controller.cleaners.map((Cleaner cleanerName) => DropdownMenuItem<String>(
+                                  value: cleanerName.id ?? '',
+                                  child: Text(
+                                    cleanerName.name ?? "",
+                                    style: const TextStyle(
+                                        fontSize: 14,
+                                        color: AppColor.neutral_600
+                                    ),
+                                    overflow: TextOverflow.ellipsis,
                                   ),
+                                )).toList(),
+                                value: controller.selectedValue,
+                                onChanged: (value) {
+                                  controller.selectedCleanerId = value;
+                                  controller.selectCleaner(value);
+                                },
+                                buttonStyleData: ButtonStyleData(
+                                  height: 50,
+                                  width: MediaQuery.of(context).size.width,
+                                  padding: const EdgeInsets.symmetric(horizontal: 15),
+                                  decoration: BoxDecoration(
+                                    border: Border.all(color: buttoncolor, width: 0.7),
+                                    borderRadius: const BorderRadius.all(Radius.circular(10)),
+                                    color: AppColor.neutral_100,
+                                  ),
+                                ),
+                                iconStyleData: const IconStyleData(
+                                  icon: Icon(Icons.arrow_forward_ios_outlined),
+                                  iconSize: 15,
+                                  iconEnabledColor: AppColor.orange,
+                                  iconDisabledColor: AppColor.neutral_400,
+                                ),
+                                dropdownStyleData: DropdownStyleData(
+                                  width: MediaQuery.of(context).size.width * 0.8,
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(10),
+                                    color: AppColor.neutral_100,
+                                  ),
+                                  scrollbarTheme: ScrollbarThemeData(
+                                    radius: const Radius.circular(40),
+                                    thickness: MaterialStateProperty.all<double>(6),
+                                    thumbVisibility: MaterialStateProperty.all<bool>(true),
+                                  ),
+                                ),
+                                menuItemStyleData: const MenuItemStyleData(
+                                  height: 40,
+                                  padding: EdgeInsets.symmetric(horizontal: 15),
+                                ),
+                              ),
+                            ),
+                            const SizedBox(height: 10),
+                          ],
+                        ) : Container(),
+                        GestureDetector(
+                          onTap: () {
+                            imagePickerOption(controller, context);
+                          },
+                          child: Container(
+                            decoration: BoxDecoration(
+                              color: AppColor.neutral_100,
+                              border:
+                                  Border.all(color: buttoncolor, width: 0.7),
+                              borderRadius: const BorderRadius.all(
+                                Radius.circular(10),
+                              ),
+                            ),
+                            child: ClipRRect(
+                              borderRadius: const BorderRadius.all(
+                                Radius.circular(10),
+                              ),
+                              child: controller.pickedImage != null
+                                  ? Image.file(
+                                      controller.pickedImage!,
+                                      width: MediaQuery.of(context).size.width -
+                                          40,
+                                      height: 220,
+                                      fit: BoxFit.cover,
+                                    )
+                                  : Container(
+                                      width: MediaQuery.of(context).size.width -
+                                          40,
+                                      height: 220,
+                                      child: Image.asset(
+                                        "Assets/Images/sport-car.png",
+                                        scale: 5,
+                                        color: AppColor.neutral_400,
+                                      ),
+                                    ),
+                            ),
                           ),
                         ),
                         const SizedBox(height: 8),
@@ -413,7 +548,7 @@ class _AddVehicleScreenState extends State<AddVehicleScreen> {
     Get.bottomSheet(
       SingleChildScrollView(
         child: ClipRRect(
-          borderRadius: BorderRadius.only(
+          borderRadius: const BorderRadius.only(
             topLeft: Radius.circular(10.0),
             topRight: Radius.circular(10.0),
           ),
@@ -421,7 +556,7 @@ class _AddVehicleScreenState extends State<AddVehicleScreen> {
             color: Colors.white,
             height: 250,
             child: Padding(
-              padding: EdgeInsets.only(left: 30.0, right: 30),
+              padding: const EdgeInsets.only(left: 30.0, right: 30),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [

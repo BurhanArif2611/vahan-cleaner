@@ -45,6 +45,8 @@ dependencies:
   flutter_image_compress: ^2.1.0
   percent_indicator: ^4.2.3
   geolocator: ^11.0.0
+  # use for the dropDown.
+  dropdown_button2: ^2.3.9
 
 dev_dependencies:
   flutter_test:

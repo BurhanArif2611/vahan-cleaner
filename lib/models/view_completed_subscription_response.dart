@@ -62,6 +62,7 @@ class CompleteVahan {
   final String? image;
   final String? readyTime;
   final String? flatInfo;
+  final String? locationName;
   final String? points;
   final String? mode;
 
@@ -75,6 +76,7 @@ class CompleteVahan {
     this.image,
     this.readyTime,
     this.flatInfo,
+    this.locationName,
     this.points,
     this.mode,
   });
@@ -89,6 +91,7 @@ class CompleteVahan {
     image: json["image"],
     readyTime: json["ready_time"],
     flatInfo: json["flat_info"],
+    locationName: json["location_name"],
     points: json["points"],
     mode: json["mode"],
   );

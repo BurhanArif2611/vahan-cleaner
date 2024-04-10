@@ -33,6 +33,7 @@
   static const pink_200 = Color(0xFFFEDCF1);
   static const pink_100 = Color(0xFFFFF3FA);
   /// Green
+  static const successGreen = Color(0xFF5cb85c);
   static const green = Color(0xFF5ED2BC);
   static const green_500 = Color(0xFF4CA998);
   static const green_400 = Color(0xFF5ED2BC);

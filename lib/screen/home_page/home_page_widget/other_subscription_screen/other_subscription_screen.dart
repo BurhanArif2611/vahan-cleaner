@@ -198,7 +198,9 @@ class _OtherSubscriptionScreenState extends State<OtherSubscriptionScreen> {
                                   if (GetSfLocalStorage.getClockOutTime().isEmpty) {
                                     Get.toNamed(AppRoutes.addVahan, arguments: {
                                       "vahanData": otherVahanData,
-                                      "baseUrl": controller.imageBaseUrl
+                                      "baseUrl": controller.imageBaseUrl,
+                                      "isOther": true,
+                                      "locationName" : "${otherVahanData.flatInfo ?? ""}, ${otherVahanData.locationName ?? ""}"
                                     });
                                   }
                                 },
@@ -253,7 +255,7 @@ class _OtherSubscriptionScreenState extends State<OtherSubscriptionScreen> {
                                               SizedBox(
                                                 width: 198,
                                                 child: Text(
-                                                  " ${otherVahanData.name ?? ""} (${otherVahanData.flatInfo ?? ""})",
+                                                  " ${otherVahanData.name ?? ""}",
                                                   style: TextStyle(
                                                       fontFamily:
                                                           FontFamily.fontFamily,
@@ -267,14 +269,14 @@ class _OtherSubscriptionScreenState extends State<OtherSubscriptionScreen> {
                                           Row(
                                             children: [
                                               Image.asset(
-                                                  "Assets/Images/cleanerIcon.png",
-                                                  height: 18,
-                                                  width: 18,
+                                                  "Assets/Images/cleanIcon.png",
+                                                  height: 16,
+                                                  width: 16,
                                                   color: AppColor.orange),
                                               SizedBox(
                                                 width: 198,
                                                 child: Text(
-                                                  " ${otherVahanData.cleaner_name ?? ""}",
+                                                  " ${otherVahanData.cleanerName ?? ""}",
                                                   style: TextStyle(
                                                       fontFamily:
                                                           FontFamily.fontFamily,
@@ -285,12 +287,49 @@ class _OtherSubscriptionScreenState extends State<OtherSubscriptionScreen> {
                                               ),
                                             ],
                                           ),
+                                          /*Row(
+                                            children: [
+                                              Image.asset(
+                                                  "Assets/Images/addressIcon.png",
+                                                  height: 15,
+                                                  width: 15,
+                                                  color: AppColor.orange),
+                                              SizedBox(
+                                                width: 200,
+                                                child: Text(
+                                                  " ${otherVahanData.flatInfo ?? ""}, ${otherVahanData.locationName ?? ""}",
+                                                  style: TextStyle(
+                                                      fontFamily:
+                                                      FontFamily.fontFamily,
+                                                      fontWeight:
+                                                      FontWeight.w500,
+                                                      fontSize: 15),
+                                                ),
+                                              ),
+                                            ],
+                                          ),*/
                                         ],
                                       ),
                                       Column(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
+                                        crossAxisAlignment: CrossAxisAlignment.start,
                                         children: [
+                                          SizedBox(
+                                            width: 70,
+                                            child: Center(
+                                              child: Padding(
+                                                padding: const EdgeInsets.only(bottom: 10),
+                                                child: Text(
+                                                  "+${otherVahanData.points}",
+                                                  style: TextStyle(
+                                                      fontSize: 30,
+                                                      fontWeight: FontWeight.bold,
+                                                      fontFamily: FontFamily.fontFamily,
+                                                      color: AppColor.successGreen
+                                                  ),
+                                                ),
+                                              ),
+                                            ),
+                                          ),
                                           Row(
                                             mainAxisAlignment:
                                                 MainAxisAlignment.end,
@@ -331,14 +370,6 @@ class _OtherSubscriptionScreenState extends State<OtherSubscriptionScreen> {
                                                         FontFamily.fontFamily),
                                               ),
                                             ],
-                                          ),
-                                          Text(
-                                            "+${otherVahanData.points} coins",
-                                            style: TextStyle(
-                                                fontSize: 12,
-                                                fontWeight: FontWeight.bold,
-                                                fontFamily:
-                                                    FontFamily.fontFamily),
                                           ),
                                         ],
                                       ),

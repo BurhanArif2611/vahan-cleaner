@@ -68,7 +68,8 @@ class Stats {
 class Vahan {
   final String? subscriptionId;
   final String? name;
-  final String? flat_info;
+  final String? flatInfo;
+  final String? locationName;
   final String? brand;
   final String? model;
   final String? regNumber;
@@ -81,7 +82,8 @@ class Vahan {
   Vahan({
     this.subscriptionId,
     this.name,
-    this.flat_info,
+    this.flatInfo,
+    this.locationName,
     this.brand,
     this.model,
     this.regNumber,
@@ -94,7 +96,8 @@ class Vahan {
   factory Vahan.fromJson(Map<String, dynamic> json) => Vahan(
     subscriptionId: json["subscription_id"],
     name: json["name"],
-    flat_info: json["flat_info"],
+    flatInfo: json["flat_info"],
+    locationName: json["location_name"],
     brand: json["brand"],
     model: json["model"],
     regNumber: json["reg_number"],

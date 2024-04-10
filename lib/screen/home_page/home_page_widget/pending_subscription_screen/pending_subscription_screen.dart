@@ -18,8 +18,7 @@ class PendingSubscriptionScreen extends StatefulWidget {
 }
 
 class _PendingSubscriptionScreenState extends State<PendingSubscriptionScreen> {
-  PendingSubscriptionController homePageController =
-      Get.put(PendingSubscriptionController());
+  PendingSubscriptionController homePageController = Get.put(PendingSubscriptionController());
 
   @override
   Widget build(BuildContext context) {
@@ -50,8 +49,7 @@ class _PendingSubscriptionScreenState extends State<PendingSubscriptionScreen> {
                             }
                           },
                           decoration: InputDecoration(
-                            labelText:
-                                'Search among ${controller.pendingVahans?.length ?? 0} vehicles',
+                            labelText: 'Search among ${controller.pendingVahans?.length ?? 0} vehicles',
                             contentPadding: EdgeInsets.zero,
                             prefixIcon: const Icon(Icons.search),
                             border: OutlineInputBorder(
@@ -65,18 +63,15 @@ class _PendingSubscriptionScreenState extends State<PendingSubscriptionScreen> {
                           children: [
                             Container(
                               width: MediaQuery.of(context).size.width * 0.40,
-                              padding: const EdgeInsets.symmetric(
-                                  horizontal: 15, vertical: 10),
+                              padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
                               margin: const EdgeInsets.only(bottom: 10),
                               decoration: BoxDecoration(
                                   borderRadius: BorderRadius.circular(8),
                                   color: AppColor.neutral_100,
-                                  border:
-                                      Border.all(color: AppColor.orange_100),
+                                  border: Border.all(color: AppColor.orange_100),
                                   boxShadow: [
                                     BoxShadow(
-                                        color: AppColor.neutral_300
-                                            .withOpacity(0.6),
+                                        color: AppColor.neutral_300.withOpacity(0.6),
                                         offset: const Offset(0, 3),
                                         spreadRadius: 4,
                                         blurRadius: 4)
@@ -100,8 +95,7 @@ class _PendingSubscriptionScreenState extends State<PendingSubscriptionScreen> {
                                           height: 22,
                                           child: Image.asset(
                                             "Assets/Images/coin.png",
-                                            errorBuilder:
-                                                (context, error, stackTrace) {
+                                            errorBuilder: (context, error, stackTrace) {
                                               return const Icon(
                                                   Icons.error_outline_outlined,
                                                   size: 10,
@@ -125,18 +119,15 @@ class _PendingSubscriptionScreenState extends State<PendingSubscriptionScreen> {
                             ),
                             Container(
                               width: MediaQuery.of(context).size.width * 0.45,
-                              padding: const EdgeInsets.symmetric(
-                                  horizontal: 15, vertical: 10),
+                              padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
                               margin: const EdgeInsets.only(bottom: 10),
                               decoration: BoxDecoration(
                                   borderRadius: BorderRadius.circular(8),
                                   color: AppColor.neutral_100,
-                                  border:
-                                      Border.all(color: AppColor.orange_100),
+                                  border: Border.all(color: AppColor.orange_100),
                                   boxShadow: [
                                     BoxShadow(
-                                        color: AppColor.neutral_300
-                                            .withOpacity(0.6),
+                                        color: AppColor.neutral_300.withOpacity(0.6),
                                         offset: const Offset(0, 3),
                                         spreadRadius: 4,
                                         blurRadius: 4)
@@ -152,16 +143,14 @@ class _PendingSubscriptionScreenState extends State<PendingSubscriptionScreen> {
                                           fontFamily: FontFamily.fontFamily),
                                     ),
                                     Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.center,
+                                      mainAxisAlignment: MainAxisAlignment.center,
                                       children: [
                                         SizedBox(
                                           width: 22,
                                           height: 22,
                                           child: Image.asset(
                                             "Assets/Images/coin.png",
-                                            errorBuilder:
-                                                (context, error, stackTrace) {
+                                            errorBuilder: (context, error, stackTrace) {
                                               return const Icon(
                                                   Icons.error_outline_outlined,
                                                   size: 10,
@@ -197,7 +186,9 @@ class _PendingSubscriptionScreenState extends State<PendingSubscriptionScreen> {
                                   if (GetSfLocalStorage.getClockOutTime().isEmpty) {
                                     Get.toNamed(AppRoutes.addVahan, arguments: {
                                       "vahanData": vahanData,
-                                      "baseUrl": controller.imageBaseUrl
+                                      "baseUrl": controller.imageBaseUrl,
+                                      "isOther": false,
+                                      "locationName" : "${vahanData.flatInfo ?? ""}, ${vahanData.locationName ?? ""}"
                                     });
                                   }
                                 },
@@ -252,7 +243,7 @@ class _PendingSubscriptionScreenState extends State<PendingSubscriptionScreen> {
                                               SizedBox(
                                                 width: 198,
                                                 child: Text(
-                                                  " ${vahanData.name ?? ""} (${vahanData.flat_info ?? ""})",
+                                                  " ${vahanData.name ?? ""}",
                                                   style: TextStyle(
                                                       fontFamily:
                                                           FontFamily.fontFamily,
@@ -269,6 +260,23 @@ class _PendingSubscriptionScreenState extends State<PendingSubscriptionScreen> {
                                         crossAxisAlignment:
                                             CrossAxisAlignment.start,
                                         children: [
+                                          SizedBox(
+                                            width: 70,
+                                            child: Center(
+                                              child: Padding(
+                                                padding: const EdgeInsets.only(bottom: 10),
+                                                child: Text(
+                                                  "+${vahanData.points}",
+                                                  style: TextStyle(
+                                                      fontSize: 30,
+                                                      fontWeight: FontWeight.bold,
+                                                      fontFamily: FontFamily.fontFamily,
+                                                      color: AppColor.successGreen
+                                                  ),
+                                                ),
+                                              ),
+                                            ),
+                                          ),
                                           Row(
                                             mainAxisAlignment:
                                                 MainAxisAlignment.end,
@@ -308,14 +316,6 @@ class _PendingSubscriptionScreenState extends State<PendingSubscriptionScreen> {
                                                         FontFamily.fontFamily),
                                               ),
                                             ],
-                                          ),
-                                          Text(
-                                            "+${vahanData.points} coins",
-                                            style: TextStyle(
-                                                fontSize: 12,
-                                                fontWeight: FontWeight.bold,
-                                                fontFamily:
-                                                    FontFamily.fontFamily),
                                           ),
                                         ],
                                       ),

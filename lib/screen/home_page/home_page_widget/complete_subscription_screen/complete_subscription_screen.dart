@@ -170,7 +170,9 @@ class _CompleteSubscriptionScreenState extends State<CompleteSubscriptionScreen>
                                     if(GetSfLocalStorage.getClockOutTime().isEmpty) {
                                       Get.toNamed(AppRoutes.addVahan, arguments: {
                                         "vahanData": completeVahanData,
-                                        "baseUrl": controller.imageBaseUrl
+                                        "baseUrl": controller.imageBaseUrl,
+                                        "isOther": false,
+                                        "locationName" : "${completeVahanData.flatInfo ?? ""}, ${completeVahanData.locationName ?? ""}"
                                       });
                                     }
                                 },
@@ -217,7 +219,7 @@ class _CompleteSubscriptionScreenState extends State<CompleteSubscriptionScreen>
                                               SizedBox(
                                                 width: 198,
                                                 child: Text(
-                                                  " ${completeVahanData?.name ?? ""} (${completeVahanData?.flatInfo ?? ""})",
+                                                  " ${completeVahanData.name ?? ""}",
                                                   style: TextStyle(
                                                       fontFamily: FontFamily.fontFamily,
                                                       fontWeight: FontWeight.w500,

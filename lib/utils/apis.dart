@@ -9,6 +9,7 @@ class Apis {
   static String markAttendanceUrl = "cleaner/mark-attendance.php?token=";
   static String getAttendanceUrl = "cleaner/get-attendance.php?token=";
   static String dashBoardUrl = "cleaner/dashboard.php?token=";
+  static String getCleanerUrl = "cleaner/get-cleaners.php";
 }
 
 printImageError({required String error}) {

@@ -56,6 +56,16 @@ class GetSfLocalStorage {
   }
 
   /// to save last logged time.
+  static void setCleanerId(String id) {
+    box.write(GetXStorageConstants.cleanerId, id);
+  }
+
+  /// to get last logged time.
+  static String getCleanerId() {
+    return box.read(GetXStorageConstants.cleanerId) ?? "";
+  }
+
+  /// to save last logged time.
   static void setAuthToken(String token) {
     box.write(GetXStorageConstants.authToken, token);
   }
@@ -95,6 +105,7 @@ class GetXStorageConstants {
   static const authToken = "Authorization";
   static const clockOut = "clockOut";
   static const cleanerName = "cleanerName";
+  static const cleanerId = "cleanerId";
   static const login = "login";
   static const rememberMe = "rememberMe";
   static const isBioMetric = "isBioMetric";
