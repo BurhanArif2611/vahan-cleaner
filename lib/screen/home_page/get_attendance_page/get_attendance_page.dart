@@ -227,15 +227,22 @@ class _GetAttendanceScreenState extends State<GetAttendanceScreen> {
                                   ),
                                   const SizedBox(width: 40),
                                   SizedBox(
-                                    width: 50,
-                                    child: Row(mainAxisAlignment: MainAxisAlignment.center,
+                                    width: 75,
+                                    child: Row(
+                                      mainAxisAlignment: MainAxisAlignment.center,
                                       children: [
-                                        Text(controller.workingHour ?? "__:__",
-                                          style: TextStyle(
-                                              fontFamily: FontFamily.fontFamily,
-                                              fontSize: 12,
-                                              color: AppColor.neutral_700,
-                                              fontWeight: FontWeight.w400),
+                                        Flexible(
+                                          child: Text(
+                                            controller.workingHour ?? "__:__",
+                                            style: TextStyle(
+                                                fontFamily: FontFamily.fontFamily,
+                                                fontSize: 12,
+                                                color: AppColor.neutral_700,
+                                                fontWeight: FontWeight.w400),
+                                            overflow: TextOverflow.ellipsis,
+                                            maxLines: 1,
+                                            textAlign: TextAlign.center,
+                                          ),
                                         ),
                                       ],
                                     ),
