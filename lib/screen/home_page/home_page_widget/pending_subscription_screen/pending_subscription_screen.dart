@@ -31,6 +31,7 @@ class _PendingSubscriptionScreenState extends State<PendingSubscriptionScreen> {
             child: Stack(
               children: [
                 SingleChildScrollView(
+                  physics: const AlwaysScrollableScrollPhysics(),
                   child: Padding(
                     padding: const EdgeInsets.all(20.0),
                     child: Column(
