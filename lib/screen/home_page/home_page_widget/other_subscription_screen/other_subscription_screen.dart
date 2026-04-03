@@ -31,7 +31,9 @@ class _OtherSubscriptionScreenState extends State<OtherSubscriptionScreen> {
             onRefresh: controller.pullRefresh,
             child: Stack(
               children: [
+
                 SingleChildScrollView(
+                  physics: const AlwaysScrollableScrollPhysics(),
                   child: Padding(
                     padding: const EdgeInsets.all(20.0),
                     child: Column(
